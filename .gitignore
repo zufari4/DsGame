@@ -1,3 +1,4 @@
 /.vs
 x64
 DsGame/x64
+/Output/*.exe
