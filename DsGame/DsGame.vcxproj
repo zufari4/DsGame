@@ -87,9 +87,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DsGame.cpp" />
+    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="space.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Rectagle.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="space.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

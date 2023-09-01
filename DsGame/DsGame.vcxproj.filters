@@ -18,9 +18,24 @@
     <ClCompile Include="DsGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="space.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Rectagle.h">
+    <ClInclude Include="Rectangle.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="space.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
