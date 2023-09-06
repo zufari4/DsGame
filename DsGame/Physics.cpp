@@ -20,7 +20,6 @@ Physics::Physics()
     : isWork_(false)
     , isPause_(true)
     , inStep_(false)
-    , speedHz_(0)
     , gravity_(200)
     , phyStep_(0)
     , phyStep_s_(0)
@@ -32,7 +31,7 @@ Physics::Physics()
 {
     //cpSpaceSetIterations(space, 5);
     cpSpaceSetGravity(space_, cpv(0, gravity_));
-    setSpeedHz(60);
+    setStepFrequency(60);
 }
 
 void Physics::run()
@@ -86,7 +85,7 @@ void Physics::step()
     now_    = SDL_GetTicks();
     accum_ += (now_ - last_);
     last_   = now_;
-    //if (accum_ > 160.0) accum_ = phyStep_;
+    if (accum_ > 160.0) accum_ = phyStep_;
     needUpdate_ = accum_ >= phyStep_;
 
     while (accum_ >= phyStep_) {
@@ -102,11 +101,10 @@ bool Physics::isWork() const
     return isWork_;
 }
 
-void Physics::setSpeedHz(double hz)
+void Physics::setStepFrequency(double hz)
 {
     pause();
-    speedHz_   = hz;
-    phyStep_   = 1000.0/speedHz_;
-    phyStep_s_ = 1.0/speedHz_;
+    phyStep_   = 1000.0/hz;
+    phyStep_s_ = 1.0/hz;
     resume();
 }

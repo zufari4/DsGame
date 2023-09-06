@@ -87,11 +87,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DsGame.cpp" />
+    <ClCompile Include="DsMap.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="space.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DsMap.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="space.h" />

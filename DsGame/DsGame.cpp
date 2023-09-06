@@ -2,6 +2,7 @@
 #include "Rectangle.h"
 #include "Physics.h"
 #include "space.h"
+#include "DsMap.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -19,12 +20,12 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); 
     SDL_Window*   window   = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
-    
+    //SDL_RenderSetScale(renderer, 2, 2);
+
     Physics physics;
     space_init(physics.getSpace(), SCREEN_W, SCREEN_H);
     physics.run();
 
-    std::vector<Rectangle> rectangles;
     SDL_Event event;
     bool quit = false;
 
@@ -38,7 +39,6 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 const SDL_MouseButtonEvent& m = (const SDL_MouseButtonEvent&)(event);
                 if (m.button == SDL_BUTTON_RIGHT) {
                     physics.pause();
-                    rectangles.emplace_back(physics.getSpace(), renderer, m.x, m.y, 50, 30);
                     physics.resume();
                 }
                 else {
@@ -68,9 +68,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         SDL_SetRenderDrawColor(renderer, 10, 10, 30, 255);
         SDL_RenderClear(renderer);
        
-        for (const auto& rectangle : rectangles) {
-            rectangle.draw();
-        }
+        drawDsMap(renderer, physics.getSpace(), 20, 20);
 
         SDL_RenderPresent(renderer);
     }

@@ -21,7 +21,7 @@ Rectangle::Rectangle(cpSpace* space, SDL_Renderer* screen, float x, float y, flo
     shape_ = cpSpaceAddShape(space, shape_);
 }
 
-void Rectangle::draw() const
+void Rectangle::draw()
 {
     const cpSplittingPlane* planes = ((const cpPolyShape*)shape_)->planes;
 

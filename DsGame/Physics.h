@@ -20,12 +20,11 @@ public:
     cpSpace* getSpace();
     void step();
     bool isWork() const;
-    void setSpeedHz(double hz);
+    void setStepFrequency(double hz);
 private:
     std::atomic_bool isWork_;
     std::atomic_bool isPause_;
     std::atomic_bool inStep_;
-    double speedHz_;
     double gravity_;
     double phyStep_;
     double phyStep_s_;

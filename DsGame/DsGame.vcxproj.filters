@@ -27,6 +27,9 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DsMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.h">
@@ -36,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DsMap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
