@@ -19,7 +19,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); 
-    SDL_Window*   window   = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, SDL_WINDOW_SHOWN);
+    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
     //SDL_RenderSetScale(renderer, 2, 2);
 
@@ -75,7 +75,6 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 else if (ev.keysym.scancode == SDL_SCANCODE_R) {
                     physics.pause();
                     DsMap::resetPos();
-                    physics.resume();
                 }
             }
             physics.handleEvents(event);
