@@ -68,7 +68,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         SDL_SetRenderDrawColor(renderer, 10, 10, 30, 255);
         SDL_RenderClear(renderer);
        
-        drawDsMap(renderer, physics.getSpace(), 20, 20);
+        drawDsMap(renderer, physics.getSpace(), 20, 20, 10, 3);
 
         SDL_RenderPresent(renderer);
     }

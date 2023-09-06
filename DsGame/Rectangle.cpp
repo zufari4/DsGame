@@ -10,14 +10,15 @@ Rectangle::Rectangle(cpSpace* space, SDL_Renderer* screen, float x, float y, flo
     , shape_(nullptr)
     , screen_(screen)
 {
-    body_  = cpBodyNew(1.0f, cpMomentForBox(1.0f, w, h));
+    body_  = //cpBodyNew(1.0f, cpMomentForBox(1.0f, w, h));
+      cpSpaceGetStaticBody(space);
     cpBodySetPosition(body_, cpv(x, y));
 
     shape_ = cpBoxShapeNew(body_, w, h, 0.5f);
     cpShapeSetElasticity(shape_, 0.3f);
     cpShapeSetFriction(shape_, 0.5f);
 
-    body_  = cpSpaceAddBody(space, body_);
+    //body_  = cpSpaceAddBody(space, body_);
     shape_ = cpSpaceAddShape(space, shape_);
 }
 
