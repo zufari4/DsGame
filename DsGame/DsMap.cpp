@@ -15,7 +15,9 @@ struct ObjectInfo
 using ObjMap = std::vector<ObjectInfo>;
 using CharMap = std::vector<std::string>;
 
-static const CharMap dMap = {              
+// https://patorjk.com/software/taag/#p=display&h=0&c=c%2B%2B&f=Doh&t=Subscribe
+
+static const CharMap DMap = {              
     "SSSSSSSSSSSSS          ",
     "S::::::::::::SSS       ",
     "S:::::::::::::::SS     ",
@@ -34,26 +36,141 @@ static const CharMap dMap = {
     "SSSSSSSSSSSSS          ",
 };
 
-static CharMap sMap = {              
-    "   SSSSSSSSSSSSSSS ",
-    " SS:::::::::::::::S",
-    "S:::::SSSSSS::::::S",
-    "S:::::S     SSSSSSS",
-    "S:::::S            ",
-    "S:::::S            ",
-    " S::::SSSS         ",
-    "  SS::::::SSSSS    ",
-    "    SSS::::::::SS  ",
-    "       SSSSSS::::S ",
-    "            S:::::S",
-    "            S:::::S",
-    "SSSSSSS     S:::::S",
-    "S::::::SSSSSS:::::S",
-    "S:::::::::::::::SS ",
-    " SSSSSSSSSSSSSSS   ",
+static CharMap SMap = {
+    "   SSSSSSSSSSSSSSS   ",
+    " SS:::::::::::::::S  ",
+    "S:::::SSSSSS::::::S  ",
+    "S:::::S     SSSSSSS  ",
+    "S:::::S              ",
+    "S:::::S              ",
+    " S::::SSSS           ",
+    "  SS::::::SSSSS      ",
+    "    SSS::::::::SS    ",
+    "       SSSSSS::::S   ",
+    "            S:::::S  ",
+    "            S:::::S  ",
+    "SSSSSSS     S:::::S  ",
+    "S::::::SSSSSS:::::S  ",
+    "S:::::::::::::::SS   ",
+    " SSSSSSSSSSSSSSS     ",
 };
 
-static ObjMap objects;
+static CharMap bMap = {              
+    "bbbbbbbb             ",
+    "b::::::b             ",
+    "b::::::b             ",
+    "b::::::b             ",
+    " b:::::b             ",
+    " b:::::bbbbbbbbb     ",
+    " b::::::::::::::bb   ",
+    " b::::::::::::::::b  ",
+    " b:::::bbbbb:::::::b ",
+    " b:::::b    b::::::b ",
+    " b:::::b     b:::::b ",
+    " b:::::b     b:::::b ",
+    " b:::::b     b:::::b ",
+    " b:::::bbbbbb::::::b ",
+    " b::::::::::::::::b  ",
+    " b:::::::::::::::b   ",
+    " bbbbbbbbbbbbbbbb    ",
+};
+
+static CharMap uMap = {
+    "uuuuuu    uuuuuu   ",
+    "u::::u    u::::u   ",
+    "u::::u    u::::u   ",
+    "u::::u    u::::u   ",
+    "u::::u    u::::u   ",
+    "u::::u    u::::u   ",
+    "u::::u    u::::u   ",
+    "u:::::uuuu:::::u   ",
+    "u:::::::::::::::uu ",
+    " u:::::::::::::::u ",
+    "  uu::::::::uu:::u ",
+    "    uuuuuuuu  uuuu ",
+};
+
+static CharMap sMap = {
+    "    ssssssssss    ",
+    "  ss::::::::::s   ",
+    "ss:::::::::::::s  ",
+    "s::::::ssss:::::s ",
+    " s:::::s  ssssss  ",
+    "   s::::::s       ",
+    "      s::::::s    ",
+    "ssssss   s:::::s  ",
+    "s:::::ssss::::::s ",
+    "s::::::::::::::s  ",
+    " s:::::::::::ss   ",
+    "  sssssssssss     ",
+};
+
+static CharMap cMap = {
+    "    cccccccccccccccc ",
+    "  cc:::::::::::::::c ",
+    " c:::::::::::::::::c ",
+    "c:::::::cccccc:::::c ",
+    "c::::::c     ccccccc ",
+    "c:::::c              ",
+    "c:::::c              ",
+    "c::::::c     ccccccc ",
+    "c:::::::cccccc:::::c ",
+    " c:::::::::::::::::c ",
+    "  cc:::::::::::::::c ",
+    "    cccccccccccccccc ",
+};
+
+static CharMap rMap = {
+    "rrrrr   rrrrrrrrr    ",
+    "r::::rrr:::::::::r   ",
+    "r:::::::::::::::::r  ",
+    "rr::::::rrrrr::::::r ",
+    " r:::::r     r:::::r ",
+    " r:::::r     rrrrrrr ",
+    " r:::::r             ",
+    " r:::::r             ",
+    " r:::::r             ",
+    " r:::::r             ",
+    " r:::::r             ",
+    " rrrrrrr             ",
+};
+
+static CharMap iMap = {
+    "  iiii   ",
+    " i::::i  ",
+    "  iiii   ",
+    "         ",
+    "iiiiiii  ",
+    "i:::::i  ",
+    " i::::i  ",
+    " i::::i  ",
+    " i::::i  ",
+    " i::::i  ",
+    " i::::i  ",
+    " i::::i  ",
+    "i::::::i ",
+    "i::::::i ",
+    "i::::::i ",
+    "iiiiiiii ",
+};
+
+static CharMap eMap = {
+    "    eeeeeeeeeeee     ",
+    "  ee::::::::::::ee   ",
+    " e::::::eeeee:::::ee ",
+    "e::::::e     e:::::e ",
+    "e:::::::eeeee::::::e ",
+    "e:::::::::::::::::e  ",
+    "e::::::eeeeeeeeeee   ",
+    "e:::::::e            ",
+    "e::::::::e           ",
+    " e::::::::eeeeeeee   ",
+    "  ee:::::::::::::e   ",
+    "    eeeeeeeeeeeeee   ",
+};
+
+static ObjMap objectsDS;
+static ObjMap objectsSubscribe;
 
 namespace DsMap
 {
@@ -72,13 +189,13 @@ namespace DsMap
 
             for (size_t col = 0; col < str.size(); ++col) {
                 float x = col * size + start_x + padding * col;
-                if (str[col] == 'S' || str[col] == ':') {
+                if (str[col] != ' ') {
                     ObjectInfo info;
-                    if (str[col] == 'S') {
-                        info.obj = std::make_unique<Rectangle>(space, render, x, y, size, size);
+                    if (str[col] == ':') {
+                        info.obj = std::make_unique<Cirle>(space, render, x, y, size / 2.0f);
                     }
                     else {
-                        info.obj = std::make_unique<Cirle>(space, render, x, y, size / 2.0f);
+                        info.obj = std::make_unique<Rectangle>(space, render, x, y, size, size);
                     }
                     info.obj->setColor(r, g, b, a);
                     info.initPosX = x;
@@ -94,20 +211,44 @@ namespace DsMap
         return maxX;
     }
 
-    void draw(SDL_Renderer* render, cpSpace* space, float x, float y, float size, float padding)
+    void drawDS(SDL_Renderer* render, cpSpace* space, float x, float y, float size, float padding)
     {
-        if (objects.empty()) {
-            float maxX = add(render, space, x, y, size, padding, dMap, objects, 0x0084f4ff);
-            add(render, space, maxX, y, size, padding, sMap, objects, 0xffb400ff);
+        if (objectsDS.empty()) {
+            float maxX = add(render, space, x, y, size, padding, DMap, objectsDS, 0x0084f4ff);
+            add(render, space, maxX, y, size, padding, SMap, objectsDS, 0xffb400ff);
         }
-        for (auto& object : objects) {
+        for (auto& object : objectsDS) {
+            object.obj->draw();
+        }
+    }
+
+    void drawSubscribe(SDL_Renderer* render, cpSpace* space, float x, float y, float size, float padding)
+    {
+        if (objectsSubscribe.empty()) {
+            float maxX = x;
+            maxX = add(render, space, maxX, y, size, padding, SMap, objectsSubscribe, 0x0084faff);
+            maxX = add(render, space, maxX, y, size, padding, uMap, objectsSubscribe, 0xa074fbff);
+            maxX = add(render, space, maxX, y, size, padding, bMap, objectsSubscribe, 0xb064fcff);
+            maxX = add(render, space, maxX, y, size, padding, sMap, objectsSubscribe, 0xc054fdff);
+            maxX = add(render, space, maxX, y, size, padding, cMap, objectsSubscribe, 0xd044ffff);
+            maxX = add(render, space, maxX, y, size, padding, rMap, objectsSubscribe, 0xf034a6ff);
+            maxX = add(render, space, maxX, y, size, padding, iMap, objectsSubscribe, 0x0024b7ff);
+            maxX = add(render, space, maxX, y, size, padding, bMap, objectsSubscribe, 0x1014c8ff);
+            maxX = add(render, space, maxX, y, size, padding, eMap, objectsSubscribe, 0x2004d9ff);
+        }
+        for (auto& object : objectsSubscribe) {
             object.obj->draw();
         }
     }
 
     void resetPos()
     {
-        for (auto& object : objects) {
+        for (auto& object : objectsDS) {
+            object.obj->setPos(object.initPosX, object.initPosY);
+            object.obj->resetVelocity();
+            object.obj->setAngle(0);
+        }
+        for (auto& object : objectsSubscribe) {
             object.obj->setPos(object.initPosX, object.initPosY);
             object.obj->resetVelocity();
             object.obj->setAngle(0);

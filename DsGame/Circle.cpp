@@ -17,7 +17,7 @@ Cirle::Cirle(cpSpace* space, SDL_Renderer* screen, float x, float y, float r)
     cpBodySetPosition(body_, cpv(x, y));
 
     shape_ = cpCircleShapeNew(body_, r, cpvzero);
-    cpShapeSetElasticity(shape_, 0.3f);
+    cpShapeSetElasticity(shape_, 0.6f);
     cpShapeSetFriction(shape_, 0.7f);
 
     body_  = cpSpaceAddBody(space, body_);

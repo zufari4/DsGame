@@ -9,9 +9,6 @@
 #include <chrono>
 
 
-#define SCREEN_W  1000
-#define SCREEN_H  800
-
 SDL_Renderer* createPreferedRender(SDL_Window* window);
 
 
@@ -19,12 +16,22 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); 
-    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, SDL_WINDOW_SHOWN);
+    SDL_DisplayMode dm;
+
+    if (SDL_GetDesktopDisplayMode(0, &dm))
+    {
+        printf("Error getting desktop display mode\n");
+        return -1;
+    }
+
+    SDL_Window*   window   = SDL_CreateWindow("DS Game", 0, 0, dm.w, dm.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     SDL_Renderer* renderer = createPreferedRender(window);
     //SDL_RenderSetScale(renderer, 2, 2);
 
     Physics physics;
-    space_init(physics.getSpace(), SCREEN_W, SCREEN_H);
+    int winSizeX, winSizeY;
+    SDL_GetWindowSize(window, &winSizeX, &winSizeY);
+    space_init(physics.getSpace(), winSizeX, winSizeY);
 
     SDL_Event event;
     bool quit = false;
@@ -75,6 +82,11 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 else if (ev.keysym.scancode == SDL_SCANCODE_R) {
                     physics.pause();
                     DsMap::resetPos();
+                    physics.resume();
+                }
+                else if (ev.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                    quit = true;
+                    break;
                 }
             }
             physics.handleEvents(event);
@@ -87,7 +99,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::draw(renderer, physics.getSpace(), 20, 20, 10, 5);
+        DsMap::drawSubscribe(renderer, physics.getSpace(), 1, 20, 10, 1);
 
         SDL_RenderPresent(renderer);
     }
