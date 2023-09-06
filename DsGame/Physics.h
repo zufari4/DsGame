@@ -20,6 +20,7 @@ public:
     cpSpace* getSpace();
     void step();
     bool isWork() const;
+    bool isPaused() const;
     void setStepFrequency(double hz);
 private:
     std::atomic_bool isWork_;

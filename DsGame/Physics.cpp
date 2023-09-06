@@ -101,6 +101,11 @@ bool Physics::isWork() const
     return isWork_;
 }
 
+bool Physics::isPaused() const
+{
+    return isPause_;
+}
+
 void Physics::setStepFrequency(double hz)
 {
     pause();

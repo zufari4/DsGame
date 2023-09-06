@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include "Rectangle.h"
+#include "Circle.h"
 #include "Physics.h"
 #include "space.h"
 #include "DsMap.h"
@@ -24,10 +25,11 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
     Physics physics;
     space_init(physics.getSpace(), SCREEN_W, SCREEN_H);
-    physics.run();
 
     SDL_Event event;
     bool quit = false;
+
+    std::vector<Cirle> circles;
 
     while (!quit) {
         while (SDL_PollEvent(&event)) {
@@ -39,6 +41,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 const SDL_MouseButtonEvent& m = (const SDL_MouseButtonEvent&)(event);
                 if (m.button == SDL_BUTTON_RIGHT) {
                     physics.pause();
+                    //circles.emplace_back(physics.getSpace(), renderer, m.x, m.y, 20);
                     physics.resume();
                 }
                 else {
@@ -55,8 +58,25 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                     physics.resume();
                 }
             }
-            if (event.type == SDL_MOUSEMOTION) {
+            else if (event.type == SDL_MOUSEMOTION) {
                 space_mouse_move(physics.getSpace(), event.motion.x, event.motion.y);
+            }
+            else if (event.type == SDL_KEYDOWN) {
+                const SDL_KeyboardEvent& ev = (const SDL_KeyboardEvent&)(event);
+                if (ev.keysym.scancode == SDL_SCANCODE_SPACE) {
+                    if (physics.isWork()) {
+                        if (physics.isPaused()) physics.resume();
+                        else physics.pause();
+                    }
+                    else {
+                        physics.run();
+                    }
+                }
+                else if (ev.keysym.scancode == SDL_SCANCODE_R) {
+                    physics.pause();
+                    DsMap::resetPos();
+                    physics.resume();
+                }
             }
             physics.handleEvents(event);
         }
@@ -65,10 +85,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         }
 
         space_update();
-        SDL_SetRenderDrawColor(renderer, 10, 10, 30, 255);
+        SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        drawDsMap(renderer, physics.getSpace(), 20, 20, 10, 3);
+        DsMap::draw(renderer, physics.getSpace(), 20, 20, 10, 5);
 
         SDL_RenderPresent(renderer);
     }
