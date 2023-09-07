@@ -1,11 +1,12 @@
 #pragma once
 
-#include <SDL2/SDL.h>
 #include <atomic>
 #include <thread>
+#include <inttypes.h>
 
 
 struct cpSpace;
+typedef union SDL_Event;
 
 
 class Physics
@@ -31,8 +32,8 @@ private:
     double phyStep_s_;
     cpSpace* space_;
     std::thread mainThread_;
-    Uint32 now_;
-    Uint32 last_;
-    double accum_;
-    bool   needUpdate_;
+    uint32_t now_;
+    uint32_t last_;
+    double   accum_;
+    bool     needUpdate_;
 };

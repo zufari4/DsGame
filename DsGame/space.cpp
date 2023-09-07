@@ -29,13 +29,6 @@ void space_init(cpSpace* space, int width, int height)
   mouse_body = cpBodyNewKinematic();
 }
 
-void
-space_update() {
-    cpVect new_point = cpvlerp(mouse_body->p, mouse_pnt, 0.25f);
-    mouse_body->v = cpvmult(cpvsub(new_point, mouse_body->p), 60.0f);
-    mouse_body->p = new_point;
-}
-
 // EVENTS
 void
 space_mouse_down(cpSpace* space) {
@@ -68,7 +61,11 @@ space_mouse_up(cpSpace* space) {
 }
 
 void
-space_mouse_move(cpSpace* space, int x, int y) {
+space_mouse_move(cpSpace* space, float x, float y) {
   mouse_pnt.x = x;
   mouse_pnt.y = y;
+
+  cpVect new_point = cpvlerp(mouse_body->p, mouse_pnt, 0.25f);
+  mouse_body->v = cpvmult(cpvsub(new_point, mouse_body->p), 60.0f);
+  mouse_body->p = new_point;
 }

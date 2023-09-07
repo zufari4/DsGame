@@ -17,6 +17,7 @@ public:
     void setPos(float x, float y) override;
     void setAngle(float a) override;
     void resetVelocity() override;
+    void setCamera(const Camera* camera) override;
 private:
     cpBody*  body_;
     cpShape* shape_;
@@ -25,4 +26,5 @@ private:
     uint8_t g_;
     uint8_t b_;
     uint8_t a_;
+    const Camera* camera_;
 };

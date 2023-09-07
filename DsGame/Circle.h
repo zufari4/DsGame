@@ -18,6 +18,8 @@ public:
     void setPos(float x, float y) override;
     void setAngle(float a) override;
     void resetVelocity() override;
+    void setCamera(const Camera* camera) override;
+
 private:
     void updateDrawShape(float radiusX, float radiusY);
 
@@ -30,4 +32,5 @@ private:
     uint8_t a_;
     std::vector<float> xShape_;
     std::vector<float> yShape_;
+    const Camera* camera_;
 };

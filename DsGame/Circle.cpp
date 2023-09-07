@@ -1,4 +1,5 @@
 #include "Circle.h"
+#include "Camera.h"
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 #include <SDL2/SDL.h>
@@ -12,6 +13,7 @@ Cirle::Cirle(cpSpace* space, SDL_Renderer* screen, float x, float y, float r)
     , g_(0xf0)
     , b_(0xf0)
     , a_(0xff)
+    , camera_(nullptr)
 {
     body_ = cpBodyNew(1.0f, cpMomentForCircle(1.0f, 0, r, cpvzero));
     cpBodySetPosition(body_, cpv(x, y));
@@ -30,15 +32,20 @@ void Cirle::draw()
 {
     const cpCircleShape* shape = ((const cpCircleShape*)shape_);
     const cpVect& pos = shape->tc;
+    float offset_x = camera_ != nullptr ? camera_->getOffsetX() : 0;
+    float offset_y = camera_ != nullptr ? camera_->getOffsetY() : 0;
 
     SDL_SetRenderDrawColor(screen_, r_, g_, b_, a_);
 
     for (size_t i = 0; i < xShape_.size() - 2; i += 2) {
-        SDL_RenderDrawLineF(screen_, pos.x + xShape_[i], pos.y + yShape_[i], pos.x + xShape_[i+1], pos.y + yShape_[i+1]);
+        SDL_RenderDrawLineF(screen_, 
+            pos.x + xShape_[i]   + offset_x, pos.y + yShape_[i]   + offset_y, 
+            pos.x + xShape_[i+1] + offset_x, pos.y + yShape_[i+1] + offset_y
+        );
     }
 
     const cpVect& rv = cpvadd(pos, cpvmult(cpvforangle(body_->a), shape->r));
-    SDL_RenderDrawLineF(screen_, pos.x, pos.y, rv.x, rv.y);
+    SDL_RenderDrawLineF(screen_, pos.x + offset_x, pos.y + offset_y, rv.x + offset_x, rv.y + offset_y);
 }
 
 void Cirle::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -66,6 +73,11 @@ void Cirle::resetVelocity()
     //cpBodySetForce(body_, cpvzero);
     //cpBodySetMoment(body_, 0);
     //cpBodySetTorque(body_, 0);
+}
+
+void Cirle::setCamera(const Camera* camera) 
+{
+    camera_ = camera;
 }
 
 void Cirle::updateDrawShape(float radiusX, float radiusY)

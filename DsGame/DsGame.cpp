@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "space.h"
 #include "DsMap.h"
+#include "Camera.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -24,9 +25,9 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         return -1;
     }
 
-    SDL_Window*   window   = SDL_CreateWindow("DS Game", 0, 0, dm.w, dm.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
-    //SDL_RenderSetScale(renderer, 2, 2);
+    Camera camera(renderer);
 
     Physics physics;
     int winSizeX, winSizeY;
@@ -66,7 +67,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 }
             }
             else if (event.type == SDL_MOUSEMOTION) {
-                space_mouse_move(physics.getSpace(), event.motion.x, event.motion.y);
+                space_mouse_move(physics.getSpace(), camera.screenToWorldX(event.motion.x), camera.screenToWorldY(event.motion.y));
             }
             else if (event.type == SDL_KEYDOWN) {
                 const SDL_KeyboardEvent& ev = (const SDL_KeyboardEvent&)(event);
@@ -82,6 +83,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 else if (ev.keysym.scancode == SDL_SCANCODE_R) {
                     physics.pause();
                     DsMap::resetPos();
+                    camera.reset();
                     physics.resume();
                 }
                 else if (ev.keysym.scancode == SDL_SCANCODE_ESCAPE) {
@@ -90,16 +92,16 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 }
             }
             physics.handleEvents(event);
+            camera.handleEvent(event);
         }
         if (quit) {
             break;
         }
 
-        space_update();
         SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::drawSubscribe(renderer, physics.getSpace(), 1, 20, 10, 1);
+        DsMap::drawDS(renderer, physics.getSpace(), &camera, 20, 20, 10, 1);
 
         SDL_RenderPresent(renderer);
     }
