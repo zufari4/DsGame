@@ -116,7 +116,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
 SDL_Renderer* createPreferedRender(SDL_Window* window)
 { 
-    const std::string preferedDrivers[3] = { "direct3d12", "direct3d11", "direct3d" };
+    const std::string preferedDrivers[3] = {"direct3d11", "direct3d", "opengl"};
     SDL_Renderer*     renderer = nullptr;
     SDL_RendererInfo  rendererInfo;
 

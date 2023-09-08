@@ -1,4 +1,5 @@
 #include "Physics.h"
+#include "HiResTimer.h"
 #include <SDL2/SDL.h>
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
@@ -9,6 +10,7 @@
 
 void physicThread(Physics& physics)
 {
+    physics.resetTime();
     while (physics.isWork())
     {
         physics.step();
@@ -20,14 +22,14 @@ Physics::Physics()
     : isWork_(false)
     , isPause_(true)
     , inStep_(false)
-    , gravity_(9.8)
-    , phyStep_(0)
-    , phyStep_s_(0)
+    , gravity_(50)
+    , stepDuration_(0)
     , space_(cpHastySpaceNew())
     , now_(0)
-    , last_(SDL_GetTicks())
+    , last_(0)
     , accum_(0)
-    , needUpdate_(false)
+    , dt_(0)
+    , maxDT_(0.2)
 {
     //cpSpaceSetIterations(space, 5);
     cpSpaceSetGravity(space_, cpv(0, gravity_));
@@ -76,22 +78,19 @@ void Physics::step()
 
     if (isPause_) {
         inStep_ = false;
-        accum_ = 0;
         std::this_thread::sleep_for(std::chrono::milliseconds(18));
-        last_ = SDL_GetTicks();
+        resetTime();
         return;
     }
 
-    now_    = SDL_GetTicks();
-    accum_ += (now_ - last_);
-    last_   = now_;
-    if (accum_ > 160.0) accum_ = phyStep_;
-    needUpdate_ = accum_ >= phyStep_;
+    now_  = timer_.now();
+    dt_   = now_ - last_;
+    last_ = now_;
+    if (dt_ > maxDT_) dt_ = maxDT_;
 
-    while (accum_ >= phyStep_) {
-        cpHastySpaceStep(space_, phyStep_s_);
-        accum_ -= phyStep_;
-    }
+    for (accum_ += dt_; accum_ >= stepDuration_; accum_ -= stepDuration_) {
+		cpHastySpaceStep(space_, stepDuration_);
+	}
 
     inStep_ = false;
 }
@@ -109,7 +108,14 @@ bool Physics::isPaused() const
 void Physics::setStepFrequency(double hz)
 {
     pause();
-    phyStep_   = 1000.0/hz;
-    phyStep_s_ = 1.0/hz;
+    stepDuration_ = 1.0/hz;
     resume();
+}
+
+void Physics::resetTime() 
+{
+    now_   = timer_.now();
+    last_  = now_;
+    dt_    = 0;
+    accum_ = 0;
 }

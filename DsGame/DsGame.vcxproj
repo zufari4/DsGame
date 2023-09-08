@@ -90,6 +90,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="DsGame.cpp" />
     <ClCompile Include="DsMap.cpp" />
+    <ClCompile Include="HiResTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="space.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="DsMap.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="HiResTimer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="space.h" />
