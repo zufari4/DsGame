@@ -93,6 +93,7 @@
     <ClCompile Include="HiResTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Render.cpp" />
     <ClCompile Include="space.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +104,7 @@
     <ClInclude Include="HiResTimer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Render.h" />
     <ClInclude Include="space.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

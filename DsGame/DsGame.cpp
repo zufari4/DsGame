@@ -5,6 +5,7 @@
 #include "space.h"
 #include "DsMap.h"
 #include "Camera.h"
+#include "Render.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -28,6 +29,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
     Camera camera(renderer);
+    Render render(renderer, camera);
 
     Physics physics;
     int winSizeX, winSizeY;
@@ -98,10 +100,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             break;
         }
 
-        SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
+        render.setDrawColor(31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::drawDS(renderer, physics.getSpace(), &camera, 20, 20, 10, 1);
+        DsMap::drawDS(render, physics.getSpace(), &camera, 20, 20, 10, 1);
 
         SDL_RenderPresent(renderer);
     }

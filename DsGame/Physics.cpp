@@ -40,13 +40,13 @@ void Physics::run()
 {
     isWork_  = true;
     isPause_ = false;
-    mainThread_ = std::thread(physicThread, std::ref(*this));
+    mainThread_ = std::make_unique<std::thread>(physicThread, std::ref(*this));
 }
 
 void Physics::stop()
 {
     isWork_ = false;
-    mainThread_.join();
+    if (mainThread_) mainThread_->join();
     cpSpaceFree(space_);
 }
 
@@ -107,9 +107,10 @@ bool Physics::isPaused() const
 
 void Physics::setStepFrequency(double hz)
 {
+    bool isPrevPause = isPause_;
     pause();
     stepDuration_ = 1.0/hz;
-    resume();
+    if (isPrevPause) resume();
 }
 
 void Physics::resetTime() 

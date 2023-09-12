@@ -17,8 +17,10 @@ public:
     void reset();
     float screenToWorldX(float screenX) const;
     float screenToWorldY(float screenY) const;
+    float worldToScreenX(float worldX) const;
+    float worldToScreenY(float worldY) const;
 private:
-    void setScale(float s);
+    void setScale(float s, float x, float y);
     SDL_Renderer* renderer_;
     float scale_;
     float offsetX_;

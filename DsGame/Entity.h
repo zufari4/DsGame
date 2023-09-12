@@ -16,5 +16,4 @@ public:
     virtual void setPos(float x, float y) = 0;
     virtual void setAngle(float a) = 0;
     virtual void resetVelocity() = 0;
-    virtual void setCamera(const Camera* camera) = 0;
 };

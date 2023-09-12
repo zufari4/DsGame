@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <thread>
+#include <memory>
 #include <inttypes.h>
 #include "HiResTimer.h"
 
@@ -30,7 +31,7 @@ private:
     double gravity_;
     double stepDuration_;
     cpSpace* space_;
-    std::thread mainThread_;
+    std::unique_ptr<std::thread> mainThread_;
     double now_;
     double last_;
     double accum_;

@@ -29,14 +29,12 @@ void Camera::handleEvent(const SDL_Event& event)
     } break;
     case SDL_MOUSEMOTION: {
         if (dragIsStart_) {
-            float dx = (float)(event.motion.xrel)/scale_;
-            float dy = (float)(event.motion.yrel)/scale_;
-            offsetX_ += dx;
-            offsetY_ += dy;
+            offsetX_ += (float)(event.motion.xrel);
+            offsetY_ += (float)(event.motion.yrel);
         }
     } break;
     case SDL_MOUSEWHEEL: {
-        setScale(scale_ + event.wheel.y * 0.05);
+        setScale(scale_ + event.wheel.y * 0.5, event.wheel.mouseX, event.wheel.mouseY);
     } break;
     }
  }
@@ -63,16 +61,27 @@ void Camera::reset()
 
 float Camera::screenToWorldX(float screenX) const 
 {
-    return screenX/scale_ - offsetX_;
+    return (screenX - offsetX_) / scale_;
 }
 
 float Camera::screenToWorldY(float screenY) const 
 {
-    return screenY/scale_ - offsetY_;
+    return (screenY - offsetY_) / scale_;
 }
 
-void Camera::setScale(float s) 
+float Camera::worldToScreenX(float worldX) const 
 {
-    SDL_RenderSetScale(renderer_, s, s);
+    return worldX * scale_ + offsetX_;
+}
+
+float Camera::worldToScreenY(float worldY) const 
+{
+    return worldY * scale_ + offsetY_;
+}
+
+void Camera::setScale(float s, float x, float y) 
+{
     scale_ = s;
+    offsetX_ = x;
+    offsetY_ = y;
 }

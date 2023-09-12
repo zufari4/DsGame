@@ -174,7 +174,7 @@ static ObjMap objectsSubscribe;
 
 namespace DsMap
 {
-    float add(SDL_Renderer* render, cpSpace* space, Camera* camera, float start_x, float start_y, float size, float padding,
+    float add(Render& render, cpSpace* space, Camera* camera, float start_x, float start_y, float size, float padding,
         const CharMap& map, ObjMap& objects, uint32_t color)
     {
         float maxX = 0;
@@ -212,7 +212,7 @@ namespace DsMap
         return maxX;
     }
 
-    void drawDS(SDL_Renderer* render, cpSpace* space, Camera* camera, float x, float y, float size, float padding)
+    void drawDS(Render& render, cpSpace* space, Camera* camera, float x, float y, float size, float padding)
     {
         if (objectsDS.empty()) {
             float maxX = x;
@@ -224,7 +224,7 @@ namespace DsMap
         }
     }
 
-    void drawSubscribe(SDL_Renderer* render, cpSpace* space, Camera* camera, float x, float y, float size, float padding)
+    void drawSubscribe(Render& render, cpSpace* space, Camera* camera, float x, float y, float size, float padding)
     {
         if (objectsSubscribe.empty()) {
             float maxX = x;
