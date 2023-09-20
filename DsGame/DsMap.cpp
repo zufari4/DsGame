@@ -198,7 +198,6 @@ namespace DsMap
                         info.obj = std::make_unique<Rectangle>(space, render, x, y, size, size);
                     }
                     info.obj->setColor(r, g, b, a);
-                    info.obj->setCamera(camera);
                     info.initPosX = x;
                     info.initPosY = y;
                     objects.push_back(std::move(info));

@@ -10,7 +10,27 @@
      , dragStartX_(0)
      , dragStartY_(0)
      , dragIsStart_(false)
- {}
+ {
+     setToCenterScreen();
+ }
+
+ void Camera::setPosition(float x, float y)
+ {
+     float deltaX = x - centerX_;
+     float deltaY = y - centerY_;
+     offsetX_ -= deltaX;
+     offsetY_ -= deltaY;
+     centerX_ = x;
+     centerY_ = y;
+ }
+
+ void Camera::move(float dx, float dy)
+ {
+     offsetX_ += dx;
+     offsetY_ += dy;
+     centerX_ -= dx;
+     centerY_ -= dy;
+ }
 
 void Camera::handleEvent(const SDL_Event& event) 
 {
@@ -29,12 +49,11 @@ void Camera::handleEvent(const SDL_Event& event)
     } break;
     case SDL_MOUSEMOTION: {
         if (dragIsStart_) {
-            offsetX_ += (float)(event.motion.xrel);
-            offsetY_ += (float)(event.motion.yrel);
+            move(event.motion.xrel, event.motion.yrel);
         }
     } break;
     case SDL_MOUSEWHEEL: {
-        setScale(scale_ + event.wheel.y * 0.5, event.wheel.mouseX, event.wheel.mouseY);
+        setScale(scale_ + event.wheel.y * 0.1, event.wheel.mouseX, event.wheel.mouseY);
     } break;
     }
  }
@@ -57,6 +76,7 @@ void Camera::reset()
      dragStartX_  = 0;
      dragStartY_  = 0;
      dragIsStart_ = false;
+     setToCenterScreen();
 }
 
 float Camera::screenToWorldX(float screenX) const 
@@ -81,7 +101,22 @@ float Camera::worldToScreenY(float worldY) const
 
 void Camera::setScale(float s, float x, float y) 
 {
+    float prevX = screenToWorldX(x);
+    float prevY = screenToWorldY(y);
+
     scale_ = s;
-    offsetX_ = x;
-    offsetY_ = y;
+
+    float newX = worldToScreenX(prevX);
+    float newY = worldToScreenY(prevY);
+
+    move(x - newX, y - newY);
+}
+
+void Camera::setToCenterScreen()
+{
+    auto window = SDL_RenderGetWindow(renderer_);
+    int w = 0, h = 0;
+    SDL_GetWindowSize(window, &w, &h);
+    centerX_ = (float)w / 2.0;
+    centerY_ = (float)h / 2.0;
 }

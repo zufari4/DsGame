@@ -11,6 +11,8 @@ class Camera
 {
 public:
     Camera(SDL_Renderer* renderer);
+    void setPosition(float x, float y);
+    void move(float dx, float dy);
     void handleEvent(const SDL_Event& event);
     float getOffsetX() const;
     float getOffsetY() const;
@@ -21,6 +23,8 @@ public:
     float worldToScreenY(float worldY) const;
 private:
     void setScale(float s, float x, float y);
+    void setToCenterScreen();
+
     SDL_Renderer* renderer_;
     float scale_;
     float offsetX_;
@@ -28,4 +32,6 @@ private:
     int32_t dragStartX_;
     int32_t dragStartY_;
     bool  dragIsStart_;
+    float centerX_;
+    float centerY_;
 };

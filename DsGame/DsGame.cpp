@@ -103,7 +103,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         render.setDrawColor(31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::drawDS(render, physics.getSpace(), &camera, 20, 20, 10, 1);
+        DsMap::drawDS(render, physics.getSpace(), &camera, 20, 20, 10, 5);
 
         SDL_RenderPresent(renderer);
     }
