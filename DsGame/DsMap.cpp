@@ -169,8 +169,31 @@ static CharMap eMap = {
     "    eeeeeeeeeeeeee   ",
 };
 
+static CharMap gMap = {
+    "   ggggggggg   ggggg ",
+    "  g:::::::::ggg::::g ",
+    " g:::::::::::::::::g ",
+    "g::::::ggggg::::::gg ",
+    "g:::::g     g:::::g  ",
+    "g:::::g     g:::::g  ",
+    "g:::::g     g:::::g  ",
+    "g::::::g    g:::::g  ",
+    "g:::::::ggggg:::::g  ",
+    " g::::::::::::::::g  ",
+    "  gg::::::::::::::g  ",
+    "    gggggggg::::::g  ",
+    "            g:::::g  ",
+    "gggggg      g:::::g  ",
+    "g:::::gg   gg:::::g  ",
+    " g::::::ggg:::::::g  ",
+    "  gg:::::::::::::g   ",
+    "    ggg::::::ggg     ",
+    "       gggggg        ",
+};
+
 static ObjMap objectsDS;
 static ObjMap objectsSubscribe;
+static ObjMap objectsBug;
 
 namespace DsMap
 {
@@ -238,6 +261,22 @@ namespace DsMap
             maxX = add(render, space, camera, maxX, y, size, padding, eMap, objectsSubscribe, 0x2004d9ff);
         }
         for (auto& object : objectsSubscribe) {
+            object.obj->draw();
+        }
+    }
+
+    void drawBug(Render& render, cpSpace* space, Camera* camera, float x, float y, float size, float padding)
+    {
+        if (objectsBug.empty()) {
+            float maxX = x;
+            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsBug, 0xa01010ff) + 30;
+            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsBug, 0xa01010ff) + 30;
+            maxX = add(render, space, camera, maxX, y, size, padding, gMap, objectsBug, 0xa01010ff);
+            for (auto& object : objectsBug) {
+                object.obj->setStatic();
+            }
+        }
+        for (auto& object : objectsBug) {
             object.obj->draw();
         }
     }

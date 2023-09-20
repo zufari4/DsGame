@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include <vector>
 
+struct cpSpace;
 struct cpBody;
 struct cpShape;
 struct cpSpace;
@@ -18,10 +19,11 @@ public:
     void setPos(float x, float y) override;
     void setAngle(float a) override;
     void resetVelocity() override;
-
+    void setStatic() override;
 private:
     void updateDrawShape(float radiusX, float radiusY);
 
+    cpSpace* space_;
     cpBody* body_;
     cpShape* shape_;
     Render& render_;
@@ -31,4 +33,5 @@ private:
     uint8_t a_;
     std::vector<float> xShape_;
     std::vector<float> yShape_;
+    float radius_;
 };

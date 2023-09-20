@@ -6,13 +6,16 @@
 
 
 Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, float h)
-    : body_(nullptr)
+    : space_(space)
+    , body_(nullptr)
     , shape_(nullptr)
     , render_(render)
     , r_(0xF0)
     , g_(0xF0)
     , b_(0xF0)
     , a_(0xFF)
+    , w_(w)
+    , h_(h)
 {
     body_  = cpBodyNew(1.0f, cpMomentForBox(1.0f, w, h));
     cpBodySetPosition(body_, cpv(x, y));
@@ -62,4 +65,21 @@ void Rectangle::resetVelocity()
     //cpBodySetForce(body_, cpvzero);
     //cpBodySetMoment(body_, 0);
     //cpBodySetTorque(body_, 0);
+}
+
+void Rectangle::setStatic()
+{
+    cpVect pos = cpBodyGetPosition(body_);
+
+    cpSpaceRemoveShape(space_, shape_);
+    cpSpaceRemoveBody(space_, body_);
+
+    body_ = cpSpaceGetStaticBody(space_);
+    cpBodySetPosition(body_, pos);
+
+    shape_ = cpBoxShapeNew(body_, w_, h_, 0.5f);
+    cpShapeSetElasticity(shape_, 0.3f);
+    cpShapeSetFriction(shape_, 0.5f);
+
+    shape_ = cpSpaceAddShape(space_, shape_);
 }

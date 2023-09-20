@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 
+struct cpSpace;
 struct cpBody;
 struct cpShape;
 struct cpSpace;
@@ -17,8 +18,9 @@ public:
     void setPos(float x, float y) override;
     void setAngle(float a) override;
     void resetVelocity() override;
-
+    void setStatic() override;
 private:
+    cpSpace* space_;
     cpBody*  body_;
     cpShape* shape_;
     Render&  render_;
@@ -26,4 +28,6 @@ private:
     uint8_t g_;
     uint8_t b_;
     uint8_t a_;
+    float w_;
+    float h_;
 };
