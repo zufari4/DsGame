@@ -19,17 +19,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); 
-    SDL_DisplayMode dm;
-
-    if (SDL_GetDesktopDisplayMode(0, &dm))
-    {
-        printf("Error getting desktop display mode\n");
-        return -1;
-    }
 
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
-    Camera camera(renderer);
+    Camera camera(renderer, 1);
     Render render(renderer, camera);
 
     StaticText helpText1(renderer, "space        - start/pause", 16, 10, 10);

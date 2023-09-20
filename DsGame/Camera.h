@@ -10,7 +10,7 @@ struct SDL_Renderer;
 class Camera
 {
 public:
-    Camera(SDL_Renderer* renderer);
+    Camera(SDL_Renderer* renderer, float scale = 1);
     void setPosition(float x, float y);
     void move(float dx, float dy);
     void handleEvent(const SDL_Event& event);
@@ -36,4 +36,5 @@ private:
     bool  dragIsStart_;
     float centerX_;
     float centerY_;
+    float initScale_;
 };

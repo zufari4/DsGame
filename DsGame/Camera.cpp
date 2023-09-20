@@ -2,16 +2,18 @@
 #include <SDL2/SDL.h>
 
 
- Camera::Camera(SDL_Renderer* renderer) 
+ Camera::Camera(SDL_Renderer* renderer, float scale)
      : renderer_(renderer)
-     , scale_(1.0)
+     , scale_(scale)
      , offsetX_(0)
      , offsetY_(0)
      , dragStartX_(0)
      , dragStartY_(0)
      , dragIsStart_(false)
+     , initScale_(scale)
  {
      setToCenterScreen();
+     //setScale(scale);
  }
 
  void Camera::setPosition(float x, float y)
@@ -70,13 +72,13 @@ float Camera::getOffsetY() const
 
 void Camera::reset()
 {
-     scale_   = 1;
      offsetX_ = 0;
      offsetY_ = 0;
      dragStartX_  = 0;
      dragStartY_  = 0;
      dragIsStart_ = false;
      setToCenterScreen();
+     scale_ = initScale_;
 }
 
 float Camera::screenToWorldX(float screenX) const 
