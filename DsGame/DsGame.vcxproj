@@ -105,7 +105,14 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="space.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DsGame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\app_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
