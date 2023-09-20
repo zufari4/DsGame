@@ -6,6 +6,7 @@
 #include "DsMap.h"
 #include "Camera.h"
 #include "Render.h"
+#include "StaticText.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -30,6 +31,12 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_Renderer* renderer = createPreferedRender(window);
     Camera camera(renderer);
     Render render(renderer, camera);
+
+    StaticText helpText1(renderer, "space        - start/pause", 16, 10, 10);
+    StaticText helpText2(renderer, "r            - restart"    , 16, 10, 30);
+    StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 50);
+    StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 70);
+    StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 90);
 
     Physics physics;
     int winSizeX, winSizeY;
@@ -103,6 +110,11 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
        
         DsMap::drawDS(render, physics.getSpace(), &camera, 180, 20, 10, 5);
         DsMap::drawBug(render, physics.getSpace(), &camera, 310, 600, 5, 1);
+        helpText1.draw();
+        helpText2.draw();
+        helpText3.draw();
+        helpText4.draw();
+        helpText5.draw();
 
         SDL_RenderPresent(renderer);
     }

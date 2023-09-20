@@ -112,6 +112,11 @@ void Camera::setScale(float s, float x, float y)
     move(x - newX, y - newY);
 }
 
+void Camera::setScale(float value)
+{
+    setScale(value, centerX_, centerY_);
+}
+
 void Camera::setToCenterScreen()
 {
     auto window = SDL_RenderGetWindow(renderer_);

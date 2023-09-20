@@ -1,6 +1,5 @@
 #include "Physics.h"
 #include "HiResTimer.h"
-#include <SDL2/SDL.h>
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 #include <chipmunk/cpHastySpace.h>
@@ -22,7 +21,7 @@ Physics::Physics()
     : isWork_(false)
     , isPause_(true)
     , inStep_(false)
-    , gravity_(50)
+    , gravity_(100)
     , stepDuration_(0)
     , space_(cpHastySpaceNew())
     , now_(0)

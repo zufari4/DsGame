@@ -42,6 +42,12 @@
     <ClCompile Include="Render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StaticText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.h">
@@ -74,6 +80,12 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StaticText.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DsGame.rc">
@@ -84,5 +96,10 @@
     <Image Include="..\Resources\app_icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Resources\JetBrainsMonoNL-Regular.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

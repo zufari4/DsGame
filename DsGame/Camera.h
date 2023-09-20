@@ -21,6 +21,8 @@ public:
     float screenToWorldY(float screenY) const;
     float worldToScreenX(float worldX) const;
     float worldToScreenY(float worldY) const;
+    void setScale(float value);
+
 private:
     void setScale(float s, float x, float y);
     void setToCenterScreen();
