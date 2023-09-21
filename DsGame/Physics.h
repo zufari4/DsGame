@@ -24,6 +24,7 @@ public:
     bool isPaused() const;
     void setStepFrequency(double hz);
     void resetTime();
+    void invalidate();
 private:
     std::atomic_bool isWork_;
     std::atomic_bool isPause_;

@@ -3,7 +3,6 @@
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 #include <chipmunk/cpHastySpace.h>
-#include "space.h"
 #include <chrono>
 
 
@@ -88,7 +87,7 @@ void Physics::step()
     if (dt_ > maxDT_) dt_ = maxDT_;
 
     for (accum_ += dt_; accum_ >= stepDuration_; accum_ -= stepDuration_) {
-		cpHastySpaceStep(space_, stepDuration_);
+        invalidate();
 	}
 
     inStep_ = false;
@@ -118,4 +117,9 @@ void Physics::resetTime()
     last_  = now_;
     dt_    = 0;
     accum_ = 0;
+}
+
+void Physics::invalidate()
+{
+    cpHastySpaceStep(space_, stepDuration_);
 }

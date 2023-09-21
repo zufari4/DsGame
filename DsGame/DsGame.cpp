@@ -2,13 +2,14 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Physics.h"
-#include "space.h"
+#include "Walls.h"
 #include "DsMap.h"
 #include "Camera.h"
 #include "Render.h"
 #include "StaticText.h"
 #include "DynamicText.h"
 #include "FpsTester.h"
+#include "MouseBody.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -34,42 +35,21 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 110);
     FpsTester fpsTester;
     Physics physics;
+    MouseBody mouseBody(physics, camera);
+
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
-    space_init(physics.getSpace(), camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY));
+    createWalls(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 0.1);
 
     SDL_Event event;
     bool quit = false;
 
     while (!quit) {
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 quit = true;
                 break;
-            }
-            else if (event.type == SDL_MOUSEBUTTONUP) {
-                const SDL_MouseButtonEvent& m = (const SDL_MouseButtonEvent&)(event);
-                if (m.button == SDL_BUTTON_RIGHT) {
-                    physics.pause();
-                    //circles.emplace_back(physics.getSpace(), renderer, m.x, m.y, 20);
-                    physics.resume();
-                }
-                else {
-                    physics.pause();
-                    space_mouse_up(physics.getSpace());
-                    physics.resume();
-                }
-            }
-            else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                const SDL_MouseButtonEvent& m = (const SDL_MouseButtonEvent&)(event);
-                if (m.button == SDL_BUTTON_LEFT) {
-                    physics.pause();
-                    space_mouse_down(physics.getSpace());
-                    physics.resume();
-                }
-            }
-            else if (event.type == SDL_MOUSEMOTION) {
-                space_mouse_move(physics.getSpace(), camera.screenToWorldX(event.motion.x), camera.screenToWorldY(event.motion.y));
             }
             else if (event.type == SDL_KEYDOWN) {
                 const SDL_KeyboardEvent& ev = (const SDL_KeyboardEvent&)(event);
@@ -84,9 +64,9 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 }
                 else if (ev.keysym.scancode == SDL_SCANCODE_R) {
                     physics.pause();
-                    DsMap::resetPos();
                     camera.reset();
-                    physics.resume();
+                    DsMap::resetPos();
+                    physics.invalidate();
                 }
                 else if (ev.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                     quit = true;
@@ -95,6 +75,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             }
             physics.handleEvents(event);
             camera.handleEvent(event);
+            mouseBody.handleEvents(event);
         }
         if (quit) {
             break;
@@ -103,10 +84,13 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         render.setDrawColor(31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
+
+
         DsMap::drawDS(render, physics.getSpace(), &camera, 2.0, 0.2, 0.1, 0.05);
         DsMap::drawBug(render, physics.getSpace(), &camera, 2.5, 5.5, 0.04, 0.02);
 
         fpsText.draw("FPS: %u", fpsTester.getFps());
+
         helpText1.draw();
         helpText2.draw();
         helpText3.draw();

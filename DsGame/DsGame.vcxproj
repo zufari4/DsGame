@@ -94,12 +94,14 @@
     <ClCompile Include="FontAtlas.cpp" />
     <ClCompile Include="FpsTester.cpp" />
     <ClCompile Include="HiResTimer.cpp" />
+    <ClCompile Include="MouseBody.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Render.cpp" />
-    <ClCompile Include="space.cpp" />
+    <ClCompile Include="Walls.cpp" />
     <ClCompile Include="StaticText.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -111,13 +113,15 @@
     <ClInclude Include="FpsTester.h" />
     <ClInclude Include="HiResTimer.h" />
     <ClInclude Include="IFontAtlas.h" />
+    <ClInclude Include="MouseBody.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="space.h" />
+    <ClInclude Include="Walls.h" />
     <ClInclude Include="StaticText.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DsGame.rc" />

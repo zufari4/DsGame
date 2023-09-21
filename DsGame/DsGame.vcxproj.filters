@@ -18,7 +18,7 @@
     <ClCompile Include="DsGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="space.cpp">
+    <ClCompile Include="Walls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
@@ -57,12 +57,18 @@
     <ClCompile Include="FpsTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MouseBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="space.h">
+    <ClInclude Include="Walls.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
@@ -106,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="FpsTester.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseBody.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
