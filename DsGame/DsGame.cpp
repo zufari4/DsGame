@@ -101,8 +101,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         render.setDrawColor(31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::drawDS(render, physics.getSpace(), &camera, 0, 0, 0.1, 0.01);
-        DsMap::drawBug(render, physics.getSpace(), &camera, 25, 60, 0.5, 0.1);
+        DsMap::drawDS(render, physics.getSpace(), &camera, 2.0, 0.2, 0.1, 0.05);
+        DsMap::drawBug(render, physics.getSpace(), &camera, 2.5, 5.5, 0.04, 0.02);
         helpText1.draw();
         helpText2.draw();
         helpText3.draw();
