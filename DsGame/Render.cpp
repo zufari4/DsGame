@@ -21,3 +21,8 @@ void Render::drawLine(float x1, float y1, float x2, float y2)
         camera_.worldToScreenX(x2), camera_.worldToScreenY(y2)
     );
 }
+
+void Render::drawPoint(float x, float y)
+{
+    SDL_RenderDrawPoint(renderer_, camera_.worldToScreenX(x), camera_.worldToScreenY(y));
+}

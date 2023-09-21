@@ -14,15 +14,15 @@ void space_init(cpSpace* space, int width, int height)
   cpShape *shape;
   
   // Create segments around the edge of the screen.
-  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(0,-height), cpv(0,height), 0.0f));
+  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(0,-height), cpv(0,height), 0.1f));
   cpShapeSetElasticity(shape, 1.0f);
   cpShapeSetFriction(shape, 1.0f);
 
-  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(width,-height), cpv(width,height), 0.0f));
+  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(width,-height), cpv(width,height), 0.1f));
   cpShapeSetElasticity(shape, 1.0f);
   cpShapeSetFriction(shape, 1.0f);
 
-  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(0,height), cpv(width,height), 0.0f));
+  shape = cpSpaceAddShape(space, cpSegmentShapeNew(staticBody, cpv(0,height), cpv(width,height), 0.1f));
   cpShapeSetElasticity(shape, 1.0f);
   cpShapeSetFriction(shape, 1.0f);
    

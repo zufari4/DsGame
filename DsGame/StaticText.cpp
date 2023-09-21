@@ -10,6 +10,7 @@ StaticText::StaticText(SDL_Renderer* renderer, const char* text, float size, flo
     TTF_Init();
     auto fontData = getFontResourceData(103);
     TTF_Font* font = TTF_OpenFontRW(fontData, 1, size);
+
     SDL_Color fg = { 200, 200, 200 };
 
     auto surface = TTF_RenderText_Blended(font, text, fg);

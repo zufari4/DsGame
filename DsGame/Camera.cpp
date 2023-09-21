@@ -55,7 +55,7 @@ void Camera::handleEvent(const SDL_Event& event)
         }
     } break;
     case SDL_MOUSEWHEEL: {
-        setScale(scale_ + event.wheel.y * 0.1, event.wheel.mouseX, event.wheel.mouseY);
+        setScale(scale_ + event.wheel.y * 2, event.wheel.mouseX, event.wheel.mouseY);
     } break;
     }
  }

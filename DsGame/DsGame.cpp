@@ -22,7 +22,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
-    Camera camera(renderer, 1);
+    Camera camera(renderer, 100);
     Render render(renderer, camera);
 
     StaticText helpText1(renderer, "space        - start/pause", 16, 10, 10);
@@ -34,7 +34,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     Physics physics;
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
-    space_init(physics.getSpace(), winSizeX, winSizeY);
+    space_init(physics.getSpace(), camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY));
 
     SDL_Event event;
     bool quit = false;
@@ -101,8 +101,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         render.setDrawColor(31, 31, 31, 255);
         SDL_RenderClear(renderer);
        
-        DsMap::drawDS(render, physics.getSpace(), &camera, 180, 20, 10, 5);
-        DsMap::drawBug(render, physics.getSpace(), &camera, 310, 600, 5, 1);
+        DsMap::drawDS(render, physics.getSpace(), &camera, 0, 0, 0.1, 0.01);
+        DsMap::drawBug(render, physics.getSpace(), &camera, 25, 60, 0.5, 0.1);
         helpText1.draw();
         helpText2.draw();
         helpText3.draw();

@@ -269,8 +269,8 @@ namespace DsMap
     {
         if (objectsBug.empty()) {
             float maxX = x;
-            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsBug, 0xa01010ff) + 30;
-            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsBug, 0xa01010ff) + 30;
+            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsBug, 0xa01010ff) + 9;
+            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsBug, 0xa01010ff) + 9;
             maxX = add(render, space, camera, maxX, y, size, padding, gMap, objectsBug, 0xa01010ff);
             for (auto& object : objectsBug) {
                 object.obj->setStatic();

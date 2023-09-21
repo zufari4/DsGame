@@ -21,7 +21,7 @@ public:
     void resetVelocity() override;
     void setStatic() override;
 private:
-    void updateDrawShape(float radiusX, float radiusY);
+    void updateDrawShape(double radius, int numSegments);
 
     cpSpace* space_;
     cpBody* body_;

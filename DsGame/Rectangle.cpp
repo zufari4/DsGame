@@ -3,7 +3,7 @@
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 
-
+#define PUSH_DISTANCE 0.002
 
 Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, float h)
     : space_(space)
@@ -20,7 +20,7 @@ Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, 
     body_  = cpBodyNew(1.0f, cpMomentForBox(1.0f, w, h));
     cpBodySetPosition(body_, cpv(x, y));
 
-    shape_ = cpBoxShapeNew(body_, w, h, 0.5f);
+    shape_ = cpBoxShapeNew(body_, w, h, PUSH_DISTANCE);
     cpShapeSetElasticity(shape_, 0.3f);
     cpShapeSetFriction(shape_, 0.5f);
 
@@ -77,7 +77,7 @@ void Rectangle::setStatic()
     body_ = cpSpaceGetStaticBody(space_);
     cpBodySetPosition(body_, pos);
 
-    shape_ = cpBoxShapeNew(body_, w_, h_, 0.5f);
+    shape_ = cpBoxShapeNew(body_, w_, h_, PUSH_DISTANCE);
     cpShapeSetElasticity(shape_, 0.3f);
     cpShapeSetFriction(shape_, 0.5f);
 
