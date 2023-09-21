@@ -55,7 +55,7 @@ void Camera::handleEvent(const SDL_Event& event)
         }
     } break;
     case SDL_MOUSEWHEEL: {
-        setScale(scale_ + event.wheel.y * 2, event.wheel.mouseX, event.wheel.mouseY);
+        setScale(scale_ + event.wheel.y * scale_*0.1, event.wheel.mouseX, event.wheel.mouseY);
     } break;
     }
  }
@@ -117,6 +117,11 @@ void Camera::setScale(float s, float x, float y)
 void Camera::setScale(float value)
 {
     setScale(value, centerX_, centerY_);
+}
+
+float Camera::getScale() const
+{
+    return scale_;
 }
 
 void Camera::setToCenterScreen()

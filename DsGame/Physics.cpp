@@ -29,7 +29,6 @@ Physics::Physics()
     , dt_(0)
     , maxDT_(0.2)
 {
-    //cpSpaceSetIterations(space, 5);
     cpSpaceSetGravity(space_, cpv(0, gravity_));
     setStepFrequency(60);
 }

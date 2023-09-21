@@ -2,6 +2,7 @@
 #include "resource.h"
 #include <SDL2/SDL.h>
 #include <windows.h>
+#include <string>
 
 
 SDL_RWops* getFontResourceData(int resID)
@@ -30,4 +31,27 @@ bool setColorKey(SDL_Surface* buffer, uint8_t colorkeyR, uint8_t colorkeyG, uint
 {
     uint32_t transparentColor = SDL_MapRGB(buffer->format, colorkeyR, colorkeyG, colorkeyB);
     return SDL_SetColorKey(buffer, SDL_BOOL(flag), transparentColor) == 0;
+}
+
+SDL_Renderer* createPreferedRender(SDL_Window* window)
+{
+    const std::string preferedDrivers[2] = { 
+        //"direct3d12" -- not implement in SDL (slow)
+        "direct3d11", 
+        //"direct3d" -- not implement in SDL (slow)
+        "opengl" 
+    };
+    SDL_Renderer* renderer = nullptr;
+    SDL_RendererInfo  rendererInfo;
+
+    for (const auto& driver : preferedDrivers) {
+        for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
+            SDL_GetRenderDriverInfo(i, &rendererInfo);
+            if (rendererInfo.name == driver) {
+                return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            }
+        }
+    }
+
+    return SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }

@@ -10,12 +10,30 @@
 #include "DynamicText.h"
 #include "FpsTester.h"
 #include "MouseBody.h"
+#include "Utils.h"
 #include <string>
 #include <vector>
 #include <chrono>
 
 
-SDL_Renderer* createPreferedRender(SDL_Window* window);
+struct Params
+{
+    Render* render;
+    Physics* physics;
+    Camera* camera;
+    FpsTester* fpsTester;
+    DynamicText* fpsText;
+    DynamicText* cameraScaleText;
+    StaticText* helpText1; 
+    StaticText* helpText2;
+    StaticText* helpText3;
+    StaticText* helpText4;
+    StaticText* helpText5;
+    bool* quit;
+};
+
+
+void drawThread(Params& params);
 
 
 int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdShow)
@@ -26,13 +44,14 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = createPreferedRender(window);
     Camera camera(renderer, 100);
-    Render render(renderer, camera);
+    Render render(renderer, camera, 31, 31, 31);
     DynamicText fpsText(renderer, 10, 10, 16);
-    StaticText helpText1(renderer, "space        - start/pause", 16, 10, 30);
-    StaticText helpText2(renderer, "r            - restart"    , 16, 10, 50);
-    StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 70);
-    StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 90);
-    StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 110);
+    DynamicText cameraScaleText(renderer, 10, 30, 16);
+    StaticText helpText1(renderer, "space        - start/pause", 16, 10, 50 );
+    StaticText helpText2(renderer, "r            - restart"    , 16, 10, 70 );
+    StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 90 );
+    StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 110);
+    StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 130);
     FpsTester fpsTester;
     Physics physics;
     MouseBody mouseBody(physics, camera);
@@ -41,11 +60,25 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
     createWalls(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 0.1);
 
-    SDL_Event event;
     bool quit = false;
+    Params params = {
+          &render   
+        , &physics  
+        , &camera   
+        , &fpsTester
+        , &fpsText  
+        , &cameraScaleText
+        , &helpText1
+        , &helpText2
+        , &helpText3
+        , &helpText4
+        , &helpText5
+        , &quit 
+    };
+    std::unique_ptr<std::thread> drawThreadPtr = std::make_unique<std::thread>(drawThread, std::ref(params));
+    SDL_Event event;
 
     while (!quit) {
-
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 quit = true;
@@ -77,30 +110,9 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             camera.handleEvent(event);
             mouseBody.handleEvents(event);
         }
-        if (quit) {
-            break;
-        }
-
-        render.setDrawColor(31, 31, 31, 255);
-        SDL_RenderClear(renderer);
-       
-
-
-        DsMap::drawDS(render, physics.getSpace(), &camera, 2.0, 0.2, 0.1, 0.05);
-        DsMap::drawBug(render, physics.getSpace(), &camera, 2.5, 5.5, 0.04, 0.02);
-
-        fpsText.draw("FPS: %u", fpsTester.getFps());
-
-        helpText1.draw();
-        helpText2.draw();
-        helpText3.draw();
-        helpText4.draw();
-        helpText5.draw();
-
-        SDL_RenderPresent(renderer);
-        fpsTester.loop();
     }
 
+    drawThreadPtr->join();
     physics.stop();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -109,20 +121,23 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     return 0;
 }
 
-SDL_Renderer* createPreferedRender(SDL_Window* window)
-{ 
-    const std::string preferedDrivers[3] = {"direct3d11", "direct3d", "opengl"};
-    SDL_Renderer*     renderer = nullptr;
-    SDL_RendererInfo  rendererInfo;
+void drawThread(Params& params)
+{
+    while (!(*params.quit)) {
+        params.render->clear();
 
-    for (const auto& driver : preferedDrivers) {
-        for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
-            SDL_GetRenderDriverInfo(i, &rendererInfo);
-            if (rendererInfo.name == driver) {
-                return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-            }
-        }  
+        DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 2.0, 0.2, 0.1, 0.05);
+        DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 2.5, 5.5, 0.04, 0.02);
+
+        params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
+        params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());
+        params.helpText1->draw();
+        params.helpText2->draw();
+        params.helpText3->draw();
+        params.helpText4->draw();
+        params.helpText5->draw();
+
+        params.render->present();
+        params.fpsTester->loop();
     }
-
-    return SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
