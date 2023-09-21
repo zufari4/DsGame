@@ -17,4 +17,5 @@ public:
     virtual void setAngle(float a) = 0;
     virtual void resetVelocity() = 0;
     virtual void setStatic() = 0;
+    virtual void setMass(float m) = 0;
 };

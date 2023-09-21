@@ -20,6 +20,7 @@ public:
     void setAngle(float a) override;
     void resetVelocity() override;
     void setStatic() override;
+    void setMass(float m) override;
 private:
     void updateDrawShape(double radius, int numSegments);
 

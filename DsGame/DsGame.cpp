@@ -41,8 +41,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); 
 
-    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = createPreferedRender(window);
+    int w, h;
+    getScreenSize(w, h);
+    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w - w*0.4, h - h*0.3, SDL_WINDOW_SHOWN);
+    SDL_Renderer* renderer = createPreferedRender(window, "direct3d11");
     Camera camera(renderer, 100);
     Render render(renderer, camera, 31, 31, 31);
     DynamicText fpsText(renderer, 10, 10, 16);
@@ -126,8 +128,9 @@ void drawThread(Params& params)
     while (!(*params.quit)) {
         params.render->clear();
 
-        DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 2.0, 0.2, 0.1, 0.05);
-        DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 2.5, 5.5, 0.04, 0.02);
+        DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
+        DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);
+        DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 0.5, -20.5, 0.04, 0.02);
 
         params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
         params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());

@@ -19,8 +19,8 @@ Cirle::Cirle(cpSpace* space, Render& render, float x, float y, float r)
     cpBodySetPosition(body_, cpv(x, y));
 
     shape_ = cpCircleShapeNew(body_, r, cpvzero);
-    cpShapeSetElasticity(shape_, 0.6f);
-    cpShapeSetFriction(shape_, 0.7f);
+    cpShapeSetElasticity(shape_, 0.7f);
+    cpShapeSetFriction(shape_, 0.5f);
 
     body_  = cpSpaceAddBody(space, body_);
     shape_ = cpSpaceAddShape(space, shape_);
@@ -92,6 +92,11 @@ void Cirle::setStatic()
     cpShapeSetFriction(shape_, 0.7f);
 
     shape_ = cpSpaceAddShape(space_, shape_);
+}
+
+void Cirle::setMass(float m)
+{
+    cpBodySetMass(body_, m);
 }
 
 void Cirle::updateDrawShape(double radius, int numSegments)

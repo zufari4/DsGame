@@ -33,25 +33,25 @@ bool setColorKey(SDL_Surface* buffer, uint8_t colorkeyR, uint8_t colorkeyG, uint
     return SDL_SetColorKey(buffer, SDL_BOOL(flag), transparentColor) == 0;
 }
 
-SDL_Renderer* createPreferedRender(SDL_Window* window)
+SDL_Renderer* createPreferedRender(SDL_Window* window, const std::string& driverName)
 {
-    const std::string preferedDrivers[2] = { 
-        //"direct3d12" -- not implement in SDL (slow)
-        "direct3d11", 
-        //"direct3d" -- not implement in SDL (slow)
-        "opengl" 
-    };
     SDL_Renderer* renderer = nullptr;
     SDL_RendererInfo  rendererInfo;
 
-    for (const auto& driver : preferedDrivers) {
-        for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
-            SDL_GetRenderDriverInfo(i, &rendererInfo);
-            if (rendererInfo.name == driver) {
-                return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-            }
+    for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
+        SDL_GetRenderDriverInfo(i, &rendererInfo);
+        if (rendererInfo.name == driverName) {
+            return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         }
     }
 
     return SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+}
+
+void getScreenSize(int& w, int& h)
+{
+    SDL_DisplayMode DM;
+    SDL_GetCurrentDisplayMode(0, &DM);
+    w = DM.w;
+    h = DM.h;
 }
