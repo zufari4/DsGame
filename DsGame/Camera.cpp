@@ -13,7 +13,6 @@
      , initScale_(scale)
  {
      setToCenterScreen();
-     //setScale(scale);
  }
 
  void Camera::setPosition(float x, float y)
