@@ -48,6 +48,15 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DynamicText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FontAtlas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.h">
@@ -84,6 +93,18 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicText.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontAtlas.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IFontAtlas.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsTester.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

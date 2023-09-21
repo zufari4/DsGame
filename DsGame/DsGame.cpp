@@ -7,6 +7,8 @@
 #include "Camera.h"
 #include "Render.h"
 #include "StaticText.h"
+#include "DynamicText.h"
+#include "FpsTester.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -24,13 +26,13 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     SDL_Renderer* renderer = createPreferedRender(window);
     Camera camera(renderer, 100);
     Render render(renderer, camera);
-
-    StaticText helpText1(renderer, "space        - start/pause", 16, 10, 10);
-    StaticText helpText2(renderer, "r            - restart"    , 16, 10, 30);
-    StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 50);
-    StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 70);
-    StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 90);
-
+    DynamicText fpsText(renderer, 10, 10, 16);
+    StaticText helpText1(renderer, "space        - start/pause", 16, 10, 30);
+    StaticText helpText2(renderer, "r            - restart"    , 16, 10, 50);
+    StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 70);
+    StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 90);
+    StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 110);
+    FpsTester fpsTester;
     Physics physics;
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
@@ -103,6 +105,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
        
         DsMap::drawDS(render, physics.getSpace(), &camera, 2.0, 0.2, 0.1, 0.05);
         DsMap::drawBug(render, physics.getSpace(), &camera, 2.5, 5.5, 0.04, 0.02);
+
+        fpsText.draw("FPS: %u", fpsTester.getFps());
         helpText1.draw();
         helpText2.draw();
         helpText3.draw();
@@ -110,6 +114,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         helpText5.draw();
 
         SDL_RenderPresent(renderer);
+        fpsTester.loop();
     }
 
     physics.stop();

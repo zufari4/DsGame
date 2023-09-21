@@ -90,6 +90,9 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="DsGame.cpp" />
     <ClCompile Include="DsMap.cpp" />
+    <ClCompile Include="DynamicText.cpp" />
+    <ClCompile Include="FontAtlas.cpp" />
+    <ClCompile Include="FpsTester.cpp" />
     <ClCompile Include="HiResTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
@@ -102,8 +105,12 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="DsMap.h" />
+    <ClInclude Include="DynamicText.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FontAtlas.h" />
+    <ClInclude Include="FpsTester.h" />
     <ClInclude Include="HiResTimer.h" />
+    <ClInclude Include="IFontAtlas.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Render.h" />
