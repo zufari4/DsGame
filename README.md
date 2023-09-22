@@ -13,7 +13,7 @@ This is a 2D game showing the DS company logo. The scene makes fun of a situatio
 * libpng16
 * brotli
 * zlib
-* bz2
+* bzip2
 
 # Build
 
