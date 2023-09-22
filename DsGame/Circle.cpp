@@ -33,19 +33,9 @@ void Cirle::draw()
     const cpCircleShape* shape = ((const cpCircleShape*)shape_);
     const cpVect& pos = shape->tc;
 
-    render_.setDrawColor(r_, g_, b_, a_);
+    render_.drawCircleFilled(pos.x, pos.y, xShape_, yShape_, r_, g_, b_, a_);
 
-    for (size_t i = 0; i < xShape_.size() - 1; i += 1) {
-        render_.drawLine( 
-            pos.x + xShape_[i]  , pos.y + yShape_[i], 
-            pos.x + xShape_[i+1], pos.y + yShape_[i+1]
-        );
-    }
-    render_.drawLine(
-        pos.x + xShape_[0], pos.y + yShape_[0],
-        pos.x + xShape_[xShape_.size() - 1], pos.y + yShape_[yShape_.size() - 1]
-    );
-
+    render_.setDrawColor(r_/2, g_/2, b_/2, a_);
     const cpVect& rv = cpvadd(pos, cpvmult(cpvforangle(body_->a), shape->r));
     render_.drawLine(pos.x, pos.y, rv.x, rv.y);
 }

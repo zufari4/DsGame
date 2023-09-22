@@ -31,13 +31,7 @@ Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, 
 void Rectangle::draw()
 {
     const cpSplittingPlane* planes = ((const cpPolyShape*)shape_)->planes;
-
-    render_.setDrawColor(r_, g_, b_, a_);
-
-    render_.drawLine(planes[0].v0.x, planes[0].v0.y, planes[1].v0.x, planes[1].v0.y);
-    render_.drawLine(planes[1].v0.x, planes[1].v0.y, planes[2].v0.x, planes[2].v0.y);
-    render_.drawLine(planes[2].v0.x, planes[2].v0.y, planes[3].v0.x, planes[3].v0.y);
-    render_.drawLine(planes[3].v0.x, planes[3].v0.y, planes[0].v0.x, planes[0].v0.y);
+    render_.drawRectangleFilled(planes, r_, g_, b_, a_);
 }
 
 void Rectangle::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)

@@ -72,6 +72,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(VCPKG_ROOT)\installed\x64-windows-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,6 +99,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Walls.cpp" />
     <ClCompile Include="StaticText.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -113,11 +115,13 @@
     <ClInclude Include="FpsTester.h" />
     <ClInclude Include="HiResTimer.h" />
     <ClInclude Include="IFontAtlas.h" />
+    <ClInclude Include="IVertexBuffer.h" />
     <ClInclude Include="MouseBody.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Walls.h" />
     <ClInclude Include="StaticText.h" />
     <ClInclude Include="Utils.h" />
