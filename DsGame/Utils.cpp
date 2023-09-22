@@ -5,6 +5,7 @@
 #include <string>
 
 
+
 SDL_RWops* getFontResourceData(int resID)
 {
     HMODULE hModule = GetModuleHandle(nullptr);
@@ -65,3 +66,5 @@ bool isRenderSupportMultiThreding(SDL_Renderer* renderer)
     std::string driverName(info.name);
     return driverName.find("direct3d") != std::string::npos;
 }
+
+

@@ -30,6 +30,7 @@ struct Params
     StaticText* helpText4;
     StaticText* helpText5;
     bool* quit;
+    std::vector<Rectangle>* rectagles;
 };
 
 
@@ -59,6 +60,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     FpsTester fpsTester;
     Physics physics;
     MouseBody mouseBody(physics, camera);
+    std::vector<Rectangle> rectangles;
 
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
@@ -78,6 +80,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         , &helpText4
         , &helpText5
         , &quit 
+        , &rectangles
     };
     std::unique_ptr<std::thread> drawThreadPtr;
     if (render.isSupportMultiThreding()) {
@@ -90,6 +93,24 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             if (event.type == SDL_QUIT) {
                 quit = true;
                 break;
+            }
+            else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                const SDL_MouseButtonEvent& m = (const SDL_MouseButtonEvent&)(event);
+                if (m.button == SDL_BUTTON_RIGHT) {
+                    bool prevRun = !physics.isPaused();
+                    physics.pause();
+                    rectangles.emplace_back(
+                        physics.getSpace(),
+                        render,
+                        camera.screenToWorldX(m.x),
+                        camera.screenToWorldY(m.y),
+                        0.5, 0.5
+                    );
+                    auto& newRect = rectangles.back();
+                    newRect.setMass(5);
+                    newRect.setColor(rnd(0, 255), rnd(0, 255), rnd(0, 255), 255);
+                    if (prevRun) physics.resume();
+                }
             }
             else if (event.type == SDL_KEYDOWN) {
                 const SDL_KeyboardEvent& ev = (const SDL_KeyboardEvent&)(event);
@@ -138,6 +159,9 @@ void drawLoop(Params& params)
     DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
     DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);
     DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 0.5, -20.5, 0.04, 0.02);
+    for (auto& rectangle : *params.rectagles) {
+        rectangle.draw();
+    }
 
     params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
     params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());
