@@ -4,7 +4,7 @@ This is a 2D game showing the DS company logo. The scene makes fun of a situatio
 
 ![demo](https://github.com/zufari4/DsGame/assets/5335933/c630f8e2-8e64-4fbd-88b4-a68369de172b)
 
-# Dependencies
+## Dependencies
 
 * SDL2
 * SDL2_ttf
