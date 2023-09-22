@@ -24,6 +24,8 @@ public:
     SDL_Renderer* getRender();
     void clear();
     void present();
+    bool isSupportMultiThreding() const;
+
 private:
     SDL_Renderer* renderer_;
     const Camera& camera_;
@@ -31,4 +33,5 @@ private:
     uint8_t clearColorG_;
     uint8_t clearColorB_;
     std::unique_ptr<IVertexBuffer> vertexBuffer_;
+    bool isSupportMultiThreding_;
 };

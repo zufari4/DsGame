@@ -34,6 +34,7 @@ struct Params
 
 
 void drawThread(Params& params);
+void drawLoop(Params& params);
 
 
 int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdShow)
@@ -78,7 +79,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         , &helpText5
         , &quit 
     };
-    std::unique_ptr<std::thread> drawThreadPtr = std::make_unique<std::thread>(drawThread, std::ref(params));
+    std::unique_ptr<std::thread> drawThreadPtr;
+    if (render.isSupportMultiThreding()) {
+        drawThreadPtr = std::make_unique<std::thread>(drawThread, std::ref(params));
+    }
     SDL_Event event;
 
     while (!quit) {
@@ -113,9 +117,12 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             camera.handleEvent(event);
             mouseBody.handleEvents(event);
         }
+        if (!render.isSupportMultiThreding()) {
+            drawLoop(params);
+        }
     }
 
-    drawThreadPtr->join();
+    if (drawThreadPtr) drawThreadPtr->join();
     physics.stop();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -124,24 +131,29 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     return 0;
 }
 
+void drawLoop(Params& params)
+{
+    params.render->clear();
+
+    DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
+    DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);
+    DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 0.5, -20.5, 0.04, 0.02);
+
+    params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
+    params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());
+    params.helpText1->draw();
+    params.helpText2->draw();
+    params.helpText3->draw();
+    params.helpText4->draw();
+    params.helpText5->draw();
+
+    params.render->present();
+    params.fpsTester->loop();
+}
+
 void drawThread(Params& params)
 {
     while (!(*params.quit)) {
-        params.render->clear();
-
-        DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
-        DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);
-        DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 0.5, -20.5, 0.04, 0.02);
-
-        params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
-        params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());
-        params.helpText1->draw();
-        params.helpText2->draw();
-        params.helpText3->draw();
-        params.helpText4->draw();
-        params.helpText5->draw();
-
-        params.render->present();
-        params.fpsTester->loop();
+        drawLoop(params);
     }
 }

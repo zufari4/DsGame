@@ -55,3 +55,11 @@ void getScreenSize(int& w, int& h)
     w = DM.w;
     h = DM.h;
 }
+
+bool isRenderSupportMultiThreding(SDL_Renderer* renderer)
+{
+    SDL_RendererInfo info;
+    SDL_GetRendererInfo(renderer, &info);
+    std::string driverName(info.name);
+    return driverName.find("direct3d") != std::string::npos;
+}

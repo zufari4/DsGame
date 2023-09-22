@@ -1,6 +1,7 @@
 #include "Render.h"
 #include "Camera.h"
 #include "VertexBuffer.h"
+#include "Utils.h"
 #include <SDL2/SDL_render.h>
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
@@ -13,6 +14,7 @@ Render::Render(SDL_Renderer* renderer, Camera& camera, uint8_t clearColorR, uint
     , clearColorG_(clearColorG)
     , clearColorB_(clearColorB)
     , vertexBuffer_(std::make_unique<VertexBuffer>(1000))
+    , isSupportMultiThreding_(isRenderSupportMultiThreding(renderer_))
 {
 
 }
@@ -98,4 +100,9 @@ void Render::clear()
 void Render::present()
 {
     SDL_RenderPresent(renderer_);
+}
+
+bool Render::isSupportMultiThreding() const
+{
+    return isSupportMultiThreding_;
 }

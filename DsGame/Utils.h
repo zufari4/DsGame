@@ -12,3 +12,4 @@ SDL_RWops* getFontResourceData(int resID);
 bool setColorKey(SDL_Surface* buffer, uint8_t colorkeyR, uint8_t colorkeyG, uint8_t colorkeyB, bool flag);
 SDL_Renderer* createPreferedRender(SDL_Window* window, const std::string& driverName);
 void getScreenSize(int& w, int& h);
+bool isRenderSupportMultiThreding(SDL_Renderer* renderer);
