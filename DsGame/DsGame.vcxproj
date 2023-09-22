@@ -61,6 +61,10 @@
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).exe $(SolutionDir)Output /Y</Command>
     </PostBuildEvent>
+    <Manifest>
+      <EnableDpiAwareness>false</EnableDpiAwareness>
+      <AdditionalManifestFiles>$(SolutionDir)Resources\disableHiDpiManifest.xml</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -85,6 +89,10 @@
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).exe $(SolutionDir)Output /Y</Command>
     </PostBuildEvent>
+    <Manifest>
+      <EnableDpiAwareness>false</EnableDpiAwareness>
+      <AdditionalManifestFiles>$(SolutionDir)Resources\disableHiDpiManifest.xml</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
