@@ -29,6 +29,7 @@ struct Params
     StaticText* helpText3;
     StaticText* helpText4;
     StaticText* helpText5;
+    StaticText* helpText6;
     bool* quit;
     std::vector<Rectangle>* rectagles;
 };
@@ -45,7 +46,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
     int w, h;
     getScreenSize(w, h);
-    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w - w*0.4, h - h*0.3, SDL_WINDOW_SHOWN);
+    SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+        w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     SDL_Renderer* renderer = createPreferedRender(window, { "direct3d11", "opengl" });
 
     Camera camera(renderer, 100);
@@ -57,6 +59,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     StaticText helpText3(renderer, "mouse left   - drag object", 16, 10, 90 );
     StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 110);
     StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 130);
+    StaticText helpText6(renderer, "mouse right  - add object" , 16, 10, 150);
     FpsTester fpsTester;
     Physics physics;
     MouseBody mouseBody(physics, camera);
@@ -79,6 +82,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         , &helpText3
         , &helpText4
         , &helpText5
+        , &helpText6
         , &quit 
         , &rectangles
     };
@@ -164,12 +168,13 @@ void drawLoop(Params& params)
     }
 
     params.fpsText->draw("FPS: %u", params.fpsTester->getFps());
-    params.cameraScaleText->draw("Scale: %.0f", params.camera->getScale());
+    params.cameraScaleText->draw("scale: %.0f", params.camera->getScale());
     params.helpText1->draw();
     params.helpText2->draw();
     params.helpText3->draw();
     params.helpText4->draw();
     params.helpText5->draw();
+    params.helpText6->draw();
 
     params.render->present();
     params.fpsTester->loop();
