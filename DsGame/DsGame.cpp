@@ -11,6 +11,7 @@
 #include "FpsTester.h"
 #include "MouseBody.h"
 #include "Utils.h"
+#include "Grid.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -32,6 +33,7 @@ struct Params
     StaticText* helpText6;
     bool* quit;
     std::vector<Rectangle>* rectagles;
+    Grid* grid;
 };
 
 
@@ -47,7 +49,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     int w, h;
     getScreenSize(w, h);
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+        w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_Renderer* renderer = createPreferedRender(window, { "direct3d11", "opengl" });
 
     Camera camera(renderer, 100);
@@ -60,6 +62,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 110);
     StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 130);
     StaticText helpText6(renderer, "mouse right  - add object" , 16, 10, 150);
+    Grid grid(render, 50, {50, 50, 60});
+
     FpsTester fpsTester;
     Physics physics;
     MouseBody mouseBody(physics, camera);
@@ -85,6 +89,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         , &helpText6
         , &quit 
         , &rectangles
+        , &grid
     };
     std::unique_ptr<std::thread> drawThreadPtr;
     if (render.isSupportMultiThreding()) {
@@ -141,6 +146,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
             physics.handleEvents(event);
             camera.handleEvent(event);
             mouseBody.handleEvents(event);
+            grid.handleEvents(event);
         }
         if (!render.isSupportMultiThreding()) {
             drawLoop(params);
@@ -159,6 +165,8 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 void drawLoop(Params& params)
 {
     params.render->clear();
+
+    params.grid->draw();
 
     DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
     DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);

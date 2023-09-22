@@ -3,7 +3,7 @@
 #include <inttypes.h>
 
 
-typedef union SDL_Event;
+union SDL_Event;
 struct SDL_Renderer;
 
 

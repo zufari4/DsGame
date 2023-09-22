@@ -24,12 +24,28 @@ void Render::setDrawColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
     SDL_SetRenderDrawColor(renderer_, r, g, b, a);
 }
 
+void Render::setDrawColor(const Color& color)
+{
+    SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
+}
+
 void Render::drawLine(float x1, float y1, float x2, float y2) 
 {
     SDL_RenderDrawLineF(renderer_,
         camera_.worldToScreenX(x1), camera_.worldToScreenY(y1),
         camera_.worldToScreenX(x2), camera_.worldToScreenY(y2)
     );
+}
+
+void Render::drawLineNoScale(const Point2& points)
+{
+    SDL_RenderDrawLinesF(renderer_, (const SDL_FPoint*)(&points), 2);
+    //SDL_RenderDrawLineF(renderer_, points.a.x, points.a.y, points.b.x, points.b.y);
+}
+
+void Render::drawLinesNoScale(const Point2* points, int count)
+{
+    SDL_RenderDrawLinesF(renderer_, (const SDL_FPoint*)points, count);
 }
 
 void Render::drawPoint(float x, float y)
@@ -105,4 +121,15 @@ void Render::present()
 bool Render::isSupportMultiThreding() const
 {
     return isSupportMultiThreding_;
+}
+
+void Render::getWindowSize(int& w, int& h) const
+{
+    auto win = SDL_RenderGetWindow(renderer_);
+    SDL_GetWindowSize(win, &w, &h);
+}
+
+float Render::getScale()
+{
+    return camera_.getScale();
 }

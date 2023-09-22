@@ -97,14 +97,17 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="DsGame.cpp" />
     <ClCompile Include="DsMap.cpp" />
     <ClCompile Include="DynamicText.cpp" />
     <ClCompile Include="FontAtlas.cpp" />
     <ClCompile Include="FpsTester.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HiResTimer.cpp" />
     <ClCompile Include="MouseBody.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -116,11 +119,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="DsMap.h" />
     <ClInclude Include="DynamicText.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FontAtlas.h" />
     <ClInclude Include="FpsTester.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="HiResTimer.h" />
     <ClInclude Include="IFontAtlas.h" />
     <ClInclude Include="IVertexBuffer.h" />
@@ -129,6 +134,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Walls.h" />
     <ClInclude Include="StaticText.h" />
