@@ -19,7 +19,7 @@ This is a 2D game showing the DS company logo. The scene makes fun of a situatio
 
 I tried to build only on Windows, since the project uses SDL and VKPKG, I think build on Linux will not pose any problems.
 
-## Steps to build
+### Steps to build
 ```
 git clone git@github.com:zufari4/DsGame.git
 git clone git@github.com:microsoft/vcpkg.git
