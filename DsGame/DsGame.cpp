@@ -45,7 +45,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     int w, h;
     getScreenSize(w, h);
     SDL_Window*   window   = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w - w*0.4, h - h*0.3, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = createPreferedRender(window, "direct3d11");
+    SDL_Renderer* renderer = createPreferedRender(window, { "direct3d11", "opengl" });
 
     Camera camera(renderer, 100);
     Render render(renderer, camera, 31, 31, 31);

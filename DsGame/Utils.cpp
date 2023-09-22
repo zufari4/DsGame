@@ -33,15 +33,17 @@ bool setColorKey(SDL_Surface* buffer, uint8_t colorkeyR, uint8_t colorkeyG, uint
     return SDL_SetColorKey(buffer, SDL_BOOL(flag), transparentColor) == 0;
 }
 
-SDL_Renderer* createPreferedRender(SDL_Window* window, const std::string& driverName)
+SDL_Renderer* createPreferedRender(SDL_Window* window, const std::vector<std::string>& driverNames)
 {
     SDL_Renderer* renderer = nullptr;
     SDL_RendererInfo  rendererInfo;
 
-    for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
-        SDL_GetRenderDriverInfo(i, &rendererInfo);
-        if (rendererInfo.name == driverName) {
-            return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    for (const auto& need : driverNames) {
+        for (int i = 0; i < SDL_GetNumRenderDrivers(); ++i) {
+            SDL_GetRenderDriverInfo(i, &rendererInfo);
+            if (rendererInfo.name == need) {
+                return SDL_CreateRenderer(window, i, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            }
         }
     }
 
