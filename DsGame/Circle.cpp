@@ -14,6 +14,7 @@ Cirle::Cirle(cpSpace* space, Render& render, float x, float y, float r)
     , b_(0xf0)
     , a_(0xff)
     , radius_(r)
+    , isStatic_(false)
 {
     body_ = cpBodyNew(1.0f, cpMomentForCircle(1.0f, 0, r, cpvzero));
     cpBodySetPosition(body_, cpv(x, y));
@@ -26,6 +27,17 @@ Cirle::Cirle(cpSpace* space, Render& render, float x, float y, float r)
     shape_ = cpSpaceAddShape(space, shape_);
 
     updateDrawShape(r, 16);
+    printf("ctor %p\n", this);
+}
+
+Cirle::~Cirle()
+{
+    printf("dtor %p\n", this);
+    cpBodyRemoveShape(body_, shape_);
+    cpSpaceRemoveShape(space_, shape_);
+    if (!isStatic_) {
+        cpSpaceRemoveBody(space_, body_);
+    }
 }
 
 void Cirle::draw()
@@ -82,6 +94,8 @@ void Cirle::setStatic()
     cpShapeSetFriction(shape_, 0.7f);
 
     shape_ = cpSpaceAddShape(space_, shape_);
+
+    isStatic_ = true;
 }
 
 void Cirle::setMass(float m)

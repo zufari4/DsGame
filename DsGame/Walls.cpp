@@ -1,12 +1,21 @@
 #include "Walls.h"
 #include "Wall.h"
 #include <vector>
+#include <memory>
 
-std::vector<Wall> walls;
+namespace Walls
+{
+    std::vector<std::unique_ptr<Wall>> walls;
 
-void createWalls(Physics& physics, float width, float height, float radius)
-{ 
-    walls.emplace_back(physics, 0, -height, 0, height, radius);
-    walls.emplace_back(physics, width,-height, width, height, radius);
-    walls.emplace_back(physics, 0, height, width, height, radius);
+    void create(Physics& physics, float width, float height, float radius)
+    {
+        auto w = std::make_unique<Wall>(physics, 0, -height, 0, height, radius); walls.push_back(std::move(w));
+        w = std::make_unique<Wall>(physics, width, -height, width, height, radius); walls.emplace_back(std::move(w));
+        w = std::make_unique<Wall>(physics, 0, height, width, height, radius); walls.emplace_back(std::move(w));
+    }
+
+    void free()
+    {
+        walls.clear();
+    }
 }

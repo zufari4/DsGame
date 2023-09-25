@@ -2,6 +2,8 @@
 #include "Render.h"
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
+#include <stdio.h>
+
 
 #define PUSH_DISTANCE 0.05
 
@@ -16,6 +18,7 @@ Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, 
     , a_(0xFF)
     , w_(w)
     , h_(h)
+    , isStatic_(false)
 {
     body_  = cpBodyNew(1.0f, cpMomentForBox(1.0f, w, h));
     cpBodySetPosition(body_, cpv(x, y));
@@ -26,6 +29,17 @@ Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, 
 
     body_  = cpSpaceAddBody(space, body_);
     shape_ = cpSpaceAddShape(space, shape_);
+    printf("ctor %p\n", this);
+}
+
+Rectangle::~Rectangle()
+{
+    printf("dtor %p\n", this);
+    cpBodyRemoveShape(body_, shape_);
+    cpSpaceRemoveShape(space_, shape_);
+    if (!isStatic_) {
+        cpSpaceRemoveBody(space_, body_);
+    }
 }
 
 void Rectangle::draw()
@@ -81,6 +95,7 @@ void Rectangle::setStatic()
     cpShapeSetFriction(shape_, 0.5f);
 
     shape_ = cpSpaceAddShape(space_, shape_);
+    isStatic_ = true;
 }
 
 void Rectangle::setMass(float m)

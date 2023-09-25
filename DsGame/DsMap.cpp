@@ -296,6 +296,14 @@ namespace DsMap
             object.obj->setAngle(0);
         }
     }
+
+    void free()
+    {
+        objectsDS.clear();
+        objectsBug.clear();
+        objectsSubscribe.clear();
+    }
+
 }
 
 

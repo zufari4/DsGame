@@ -32,7 +32,7 @@ struct Params
     StaticText* helpText5;
     StaticText* helpText6;
     bool* quit;
-    std::vector<Rectangle>* rectagles;
+    std::vector<std::unique_ptr<Rectangle>>* rectagles;
     Grid* grid;
 };
 
@@ -67,11 +67,11 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     FpsTester fpsTester;
     Physics physics;
     MouseBody mouseBody(physics, camera);
-    std::vector<Rectangle> rectangles;
+    std::vector<std::unique_ptr<Rectangle>> rectangles;
 
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
-    createWalls(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 1);
+    Walls::create(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 1);
 
     bool quit = false;
     Params params = {
@@ -108,16 +108,16 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                 if (m.button == SDL_BUTTON_RIGHT) {
                     bool prevRun = !physics.isPaused();
                     physics.pause();
-                    rectangles.emplace_back(
+                    auto newRect = std::make_unique<Rectangle>(
                         physics.getSpace(),
                         render,
                         camera.screenToWorldX(m.x),
                         camera.screenToWorldY(m.y),
                         5, 5
                     );
-                    auto& newRect = rectangles.back();
-                    newRect.setMass(3);
-                    newRect.setColor(rnd(0, 255), rnd(0, 255), rnd(0, 255), 255);
+                    newRect->setMass(3);
+                    newRect->setColor(rnd(0, 255), rnd(0, 255), rnd(0, 255), 255);
+                    rectangles.push_back(std::move(newRect));
                     if (prevRun) physics.resume();
                 }
             }
@@ -136,6 +136,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                     physics.pause();
                     camera.reset();
                     DsMap::resetPos();
+                    rectangles.clear();
                     physics.invalidate();
                 }
                 else if (ev.keysym.scancode == SDL_SCANCODE_ESCAPE) {
@@ -155,6 +156,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
     if (drawThreadPtr) drawThreadPtr->join();
     physics.stop();
+    rectangles.clear();
+    DsMap::free();
+    Walls::free();
+    physics.free();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -172,7 +177,7 @@ void drawLoop(Params& params)
     DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 40, 50, 0.3, 0.1);
     DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 22, -200, 0.3, 0.1);
     for (auto& rectangle : *params.rectagles) {
-        rectangle.draw();
+        rectangle->draw();
     }
 
     params.fpsText->draw("FPS: %u", params.fpsTester->getFps());

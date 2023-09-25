@@ -13,6 +13,7 @@ class Rectangle: public Entity
 {
 public:
     Rectangle(cpSpace* space, Render& render, float x, float y, float w, float h);
+    ~Rectangle();
     void draw() override;
     void setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) override;
     void setPos(float x, float y) override;
@@ -31,4 +32,5 @@ private:
     uint8_t a_;
     float w_;
     float h_;
+    bool isStatic_;
 };

@@ -14,6 +14,7 @@ class Cirle : public Entity
 {
 public:
     Cirle(cpSpace* space, Render& render, float x, float y, float r);
+    ~Cirle();
     void draw() override;
     void setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) override;
     void setPos(float x, float y) override;
@@ -35,4 +36,5 @@ private:
     std::vector<float> xShape_;
     std::vector<float> yShape_;
     float radius_;
+    bool isStatic_;
 };

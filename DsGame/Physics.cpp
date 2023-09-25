@@ -45,7 +45,6 @@ void Physics::stop()
 {
     isWork_ = false;
     if (mainThread_) mainThread_->join();
-    cpSpaceFree(space_);
 }
 
 void Physics::pause()
@@ -122,4 +121,10 @@ void Physics::resetTime()
 void Physics::invalidate()
 {
     cpHastySpaceStep(space_, stepDuration_);
+}
+
+void Physics::free()
+{
+    cpSpaceFree(space_);
+    space_ = nullptr;
 }
