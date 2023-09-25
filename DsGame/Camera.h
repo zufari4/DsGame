@@ -4,19 +4,18 @@
 
 
 union SDL_Event;
-struct SDL_Renderer;
 
 
 class Camera
 {
 public:
-    Camera(SDL_Renderer* renderer, float scale = 1);
+    Camera(int screenW, int screenH, float scale = 1);
     void setPosition(float x, float y);
     void move(float dx, float dy);
     void handleEvent(const SDL_Event& event);
     float getOffsetX() const;
     float getOffsetY() const;
-    void reset();
+    void reset(int screenW, int screenH);
     float screenToWorldX(float screenX) const;
     float screenToWorldY(float screenY) const;
     float worldToScreenX(float worldX) const;
@@ -26,9 +25,8 @@ public:
 
 private:
     void setScale(float s, float x, float y);
-    void setToCenterScreen();
+    void setToCenterScreen(int screenW, int screenH);
 
-    SDL_Renderer* renderer_;
     float scale_;
     float offsetX_;
     float offsetY_;

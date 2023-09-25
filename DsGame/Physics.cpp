@@ -16,11 +16,11 @@ void physicThread(Physics& physics)
 }
 
 
-Physics::Physics()
+Physics::Physics(double gravity)
     : isWork_(false)
     , isPause_(true)
     , inStep_(false)
-    , gravity_(100)
+    , gravity_(gravity)
     , stepDuration_(0)
     , space_(cpHastySpaceNew())
     , now_(0)

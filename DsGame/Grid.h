@@ -15,6 +15,7 @@ public:
     Grid(Render& render, float size, const Color& color);
     void draw();
     void handleEvents(const SDL_Event& event);
+
 private:
     void updateLines();
 

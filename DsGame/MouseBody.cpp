@@ -11,9 +11,9 @@ cpShapeFilter GRAB_FILTER = { CP_NO_GROUP, GRABBABLE_MASK_BIT, GRABBABLE_MASK_BI
 cpShapeFilter NOT_GRABBABLE_FILTER = { CP_NO_GROUP, ~GRABBABLE_MASK_BIT, ~GRABBABLE_MASK_BIT };
 
 
-MouseBody::MouseBody(Physics& physics, Camera& camera)
+MouseBody::MouseBody(Physics& physics)
     : physics_(physics)
-    , camera_(camera)
+    , camera_(nullptr)
     , mouseBody_(cpBodyNewKinematic())
     , mouseJoint_(nullptr)
     , mousePntX_(0)
@@ -64,11 +64,16 @@ void MouseBody::handleEvents(const SDL_Event& event)
          }
       }
      else if (event.type == SDL_MOUSEMOTION) {
-         mousePntX_ = camera_.screenToWorldX(event.motion.x);
-         mousePntY_ = camera_.screenToWorldY(event.motion.y);
+         mousePntX_ = camera_->screenToWorldX(event.motion.x);
+         mousePntY_ = camera_->screenToWorldY(event.motion.y);
 
          cpVect new_point = cpvlerp(mouseBody_->p, { mousePntX_, mousePntY_ }, 0.25f);
          mouseBody_->v = cpvmult(cpvsub(new_point, mouseBody_->p), 60.0f);
          mouseBody_->p = new_point;
      }
+}
+
+void MouseBody::setCamera(Camera& camera)
+{
+    camera_ = &camera;
 }

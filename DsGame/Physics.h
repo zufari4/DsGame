@@ -12,7 +12,7 @@ typedef union SDL_Event;
 class Physics
 {
 public:
-    Physics();
+    Physics(double gravity);
     void run();
     void stop();
     void pause();

@@ -1,10 +1,10 @@
 #include "Camera.h"
-#include <SDL2/SDL.h>
+#include "Render.h"
+#include <SDL2/SDL_events.h>
 
 
- Camera::Camera(SDL_Renderer* renderer, float scale)
-     : renderer_(renderer)
-     , scale_(scale)
+ Camera::Camera(int screenW, int screenH, float scale)
+     : scale_(scale)
      , offsetX_(0)
      , offsetY_(0)
      , dragStartX_(0)
@@ -12,7 +12,7 @@
      , dragIsStart_(false)
      , initScale_(scale)
  {
-     setToCenterScreen();
+     setToCenterScreen(screenW, screenH);
  }
 
  void Camera::setPosition(float x, float y)
@@ -69,14 +69,14 @@ float Camera::getOffsetY() const
     return offsetY_;
 }
 
-void Camera::reset()
+void Camera::reset(int screenW, int screenH)
 {
      offsetX_ = 0;
      offsetY_ = 0;
      dragStartX_  = 0;
      dragStartY_  = 0;
      dragIsStart_ = false;
-     setToCenterScreen();
+     setToCenterScreen(screenW, screenH);
      scale_ = initScale_;
 }
 
@@ -123,11 +123,8 @@ float Camera::getScale() const
     return scale_;
 }
 
-void Camera::setToCenterScreen()
+void Camera::setToCenterScreen(int screenW, int screenH)
 {
-    auto window = SDL_RenderGetWindow(renderer_);
-    int w = 0, h = 0;
-    SDL_GetWindowSize(window, &w, &h);
-    centerX_ = (float)w / 2.0;
-    centerY_ = (float)h / 2.0;
+    centerX_ = (float)screenW / 2.0;
+    centerY_ = (float)screenH / 2.0;
 }

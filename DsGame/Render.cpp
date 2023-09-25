@@ -2,21 +2,35 @@
 #include "Camera.h"
 #include "VertexBuffer.h"
 #include "Utils.h"
-#include <SDL2/SDL_render.h>
+#include <SDL2/SDL.h>
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 
 
-Render::Render(SDL_Renderer* renderer, Camera& camera, uint8_t clearColorR, uint8_t clearColorG, uint8_t clearColorB)
-    : renderer_(renderer)
-    , camera_(camera)
+Render::Render(uint8_t clearColorR, uint8_t clearColorG, uint8_t clearColorB)
+    : renderer_(nullptr)
+    , window_(nullptr)
+    , camera_(nullptr)
     , clearColorR_(clearColorR)
     , clearColorG_(clearColorG)
     , clearColorB_(clearColorB)
     , vertexBuffer_(std::make_unique<VertexBuffer>(1000))
-    , isSupportMultiThreding_(isRenderSupportMultiThreding(renderer_))
+    , isSupportMultiThreding_(false)
 {
 
+}
+
+bool Render::init()
+{
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+    int w, h;
+    getScreenSize(w, h);
+    window_ = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
+    renderer_ = createPreferedRender(window_, { "direct3d11", "opengl" });
+    isSupportMultiThreding_ = isRenderSupportMultiThreding(renderer_);
+    return renderer_ != nullptr;
 }
 
 void Render::setDrawColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -32,8 +46,8 @@ void Render::setDrawColor(const Color& color)
 void Render::drawLine(float x1, float y1, float x2, float y2) 
 {
     SDL_RenderDrawLineF(renderer_,
-        camera_.worldToScreenX(x1), camera_.worldToScreenY(y1),
-        camera_.worldToScreenX(x2), camera_.worldToScreenY(y2)
+        camera_->worldToScreenX(x1), camera_->worldToScreenY(y1),
+        camera_->worldToScreenX(x2), camera_->worldToScreenY(y2)
     );
 }
 
@@ -50,15 +64,15 @@ void Render::drawLinesNoScale(const Point2* points, int count)
 
 void Render::drawPoint(float x, float y)
 {
-    SDL_RenderDrawPoint(renderer_, camera_.worldToScreenX(x), camera_.worldToScreenY(y));
+    SDL_RenderDrawPoint(renderer_, camera_->worldToScreenX(x), camera_->worldToScreenY(y));
 }
 
 void Render::drawRectangleFilled(const cpSplittingPlane* planes, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
     for (size_t i = 0; i < 4; ++i) {
         vertexBuffer_->setVertex(i, 
-            camera_.worldToScreenX(planes[i].v0.x), 
-            camera_.worldToScreenY(planes[i].v0.y),
+            camera_->worldToScreenX(planes[i].v0.x), 
+            camera_->worldToScreenY(planes[i].v0.y),
             r, g, b, a
         );
     }
@@ -76,14 +90,14 @@ void Render::drawCircleFilled(float centerX, float centerY, const std::vector<fl
     uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
     vertexBuffer_->setVertex(0,
-        camera_.worldToScreenX(centerX),
-        camera_.worldToScreenY(centerY),
+        camera_->worldToScreenX(centerX),
+        camera_->worldToScreenY(centerY),
         r, g, b, a
     );
     for (size_t i = 0; i < xShape.size(); ++i) {
         vertexBuffer_->setVertex(i+1,
-            camera_.worldToScreenX(centerX + xShape[i]),
-            camera_.worldToScreenY(centerY + yShape[i]),
+            camera_->worldToScreenX(centerX + xShape[i]),
+            camera_->worldToScreenY(centerY + yShape[i]),
             r, g, b, a
         );
     }
@@ -102,7 +116,7 @@ void Render::drawCircleFilled(float centerX, float centerY, const std::vector<fl
     SDL_RenderGeometry(renderer_, nullptr, vertexBuffer_->getVertexes(), xShape.size()+1, vertexBuffer_->getIndexes(), countIndexes);
 }
 
-SDL_Renderer* Render::getRender()
+SDL_Renderer* Render::getRenderer()
 {
     return renderer_;
 }
@@ -131,15 +145,27 @@ void Render::getWindowSize(int& w, int& h) const
 
 float Render::getScale()
 {
-    return camera_.getScale();
+    return camera_->getScale();
 }
 
 float Render::getCameraOffsetX()
 {
-    return camera_.getOffsetX();
+    return camera_->getOffsetX();
 }
 
 float Render::getCameraOffsetY()
 {
-    return camera_.getOffsetY();
+    return camera_->getOffsetY();
+}
+
+void Render::setCamera(const Camera& camera)
+{
+    camera_ = &camera;
+}
+
+void Render::free()
+{
+    SDL_DestroyRenderer(renderer_);
+    SDL_DestroyWindow(window_);
+    SDL_Quit();
 }

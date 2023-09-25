@@ -10,13 +10,18 @@
 
 class Camera;
 struct SDL_Renderer;
+struct SDL_Window;
 struct cpSplittingPlane;
 
 
 class Render 
 {
 public:
-    Render(SDL_Renderer* renderer, Camera& camera, uint8_t clearColorR, uint8_t clearColorG, uint8_t clearColorB);
+    Render() = delete;
+    Render(Render&&) = delete;
+
+    Render(uint8_t clearColorR, uint8_t clearColorG, uint8_t clearColorB);
+    bool init();
     void setDrawColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     void setDrawColor(const Color& color);
     void drawLine(float x1, float y1, float x2, float y2);
@@ -26,7 +31,7 @@ public:
     void drawRectangleFilled(const cpSplittingPlane* planes, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     void drawCircleFilled(float centerX, float centerY, const std::vector<float>& xShape, const std::vector<float>& yShape, 
         uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-    SDL_Renderer* getRender();
+    SDL_Renderer* getRenderer();
     void clear();
     void present();
     bool isSupportMultiThreding() const;
@@ -34,9 +39,13 @@ public:
     float getScale();
     float getCameraOffsetX();
     float getCameraOffsetY();
+    void setCamera(const Camera& camera);
+    void free();
 private:
+
     SDL_Renderer* renderer_;
-    const Camera& camera_;
+    SDL_Window* window_;
+    const Camera* camera_;
     uint8_t clearColorR_;
     uint8_t clearColorG_;
     uint8_t clearColorB_;

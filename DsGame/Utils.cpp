@@ -63,7 +63,7 @@ bool isRenderSupportMultiThreding(SDL_Renderer* renderer)
 {
     SDL_RendererInfo info;
     SDL_GetRendererInfo(renderer, &info);
-    std::string driverName(info.name);
+    std::string driverName(info.name == nullptr ? "" : info.name);
     return driverName.find("direct3d") != std::string::npos;
 }
 

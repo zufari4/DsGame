@@ -10,12 +10,13 @@ class Camera;
 class MouseBody
 {
 public:
-    MouseBody(Physics& physics, Camera& camera);
+    MouseBody(Physics& physics);
     void handleEvents(const SDL_Event& event);
+    void setCamera(Camera& camera);
 
 private:
     Physics& physics_;
-    Camera& camera_;
+    Camera* camera_;
     cpBody* mouseBody_;
     cpConstraint* mouseJoint_;
     float mousePntX_;

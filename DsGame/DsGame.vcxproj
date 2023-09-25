@@ -98,7 +98,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="DsGame.cpp" />
+    <ClCompile Include="DsDemo.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="DsMap.cpp" />
     <ClCompile Include="DynamicText.cpp" />
     <ClCompile Include="FontAtlas.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DsDemo.h" />
     <ClInclude Include="DsMap.h" />
     <ClInclude Include="DynamicText.h" />
     <ClInclude Include="Entity.h" />
