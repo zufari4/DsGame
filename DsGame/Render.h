@@ -32,7 +32,8 @@ public:
     bool isSupportMultiThreding() const;
     void getWindowSize(int& w, int& h) const;
     float getScale();
-
+    float getCameraOffsetX();
+    float getCameraOffsetY();
 private:
     SDL_Renderer* renderer_;
     const Camera& camera_;

@@ -20,7 +20,7 @@ Physics::Physics()
     : isWork_(false)
     , isPause_(true)
     , inStep_(false)
-    , gravity_(5.8)
+    , gravity_(100)
     , stepDuration_(0)
     , space_(cpHastySpaceNew())
     , now_(0)
@@ -30,6 +30,7 @@ Physics::Physics()
     , maxDT_(0.2)
 {
     cpSpaceSetGravity(space_, cpv(0, gravity_));
+    cpSpaceSetIterations(space_, 30);
     setStepFrequency(60);
 }
 

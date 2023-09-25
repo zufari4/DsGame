@@ -3,7 +3,7 @@
 #include <chipmunk/chipmunk_private.h>
 #include <chipmunk/chipmunk.h>
 
-#define PUSH_DISTANCE 0.005
+#define PUSH_DISTANCE 0.05
 
 Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, float h)
     : space_(space)
@@ -31,7 +31,12 @@ Rectangle::Rectangle(cpSpace* space, Render& render, float x, float y, float w, 
 void Rectangle::draw()
 {
     const cpSplittingPlane* planes = ((const cpPolyShape*)shape_)->planes;
-    render_.drawRectangleFilled(planes, r_, g_, b_, a_);
+    if (cpBodyIsSleeping(body_)) {
+        render_.drawRectangleFilled(planes, 0, 0, 20, a_);
+    }
+    else {
+        render_.drawRectangleFilled(planes, r_, g_, b_, a_);
+    }
 }
 
 void Rectangle::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)

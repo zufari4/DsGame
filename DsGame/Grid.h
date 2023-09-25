@@ -23,5 +23,6 @@ private:
     float size_;
     std::vector<Point2> lines_;
     size_t countLines_;
+    bool dragStart_;
 };
 

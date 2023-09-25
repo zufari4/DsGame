@@ -52,7 +52,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
         w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_Renderer* renderer = createPreferedRender(window, { "direct3d11", "opengl" });
 
-    Camera camera(renderer, 100);
+    Camera camera(renderer, 18);
     Render render(renderer, camera, 31, 31, 31);
     DynamicText fpsText(renderer, 10, 10, 16);
     DynamicText cameraScaleText(renderer, 10, 30, 16);
@@ -62,7 +62,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
     StaticText helpText4(renderer, "mouse middle - move camera", 16, 10, 110);
     StaticText helpText5(renderer, "mouse wheel  - zoom"       , 16, 10, 130);
     StaticText helpText6(renderer, "mouse right  - add object" , 16, 10, 150);
-    Grid grid(render, 50, {50, 50, 60});
+    Grid grid(render, 250, {50, 50, 60});
 
     FpsTester fpsTester;
     Physics physics;
@@ -71,7 +71,7 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
 
     int winSizeX, winSizeY;
     SDL_GetWindowSize(window, &winSizeX, &winSizeY);
-    createWalls(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 0.1);
+    createWalls(physics, camera.screenToWorldX(winSizeX), camera.screenToWorldY(winSizeY), 1);
 
     bool quit = false;
     Params params = {
@@ -113,10 +113,10 @@ int wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nCmdS
                         render,
                         camera.screenToWorldX(m.x),
                         camera.screenToWorldY(m.y),
-                        0.5, 0.5
+                        5, 5
                     );
                     auto& newRect = rectangles.back();
-                    newRect.setMass(5);
+                    newRect.setMass(3);
                     newRect.setColor(rnd(0, 255), rnd(0, 255), rnd(0, 255), 255);
                     if (prevRun) physics.resume();
                 }
@@ -168,9 +168,9 @@ void drawLoop(Params& params)
 
     params.grid->draw();
 
-    DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 3.0, 0.2, 0.1, 0.05);
-    DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 3.5, 5.5, 0.04, 0.02);
-    DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 0.5, -20.5, 0.04, 0.02);
+    DsMap::drawDS(*params.render, params.physics->getSpace(), params.camera, 35, 5, 0.8, 0.2);
+    DsMap::drawBug(*params.render, params.physics->getSpace(), params.camera, 40, 50, 0.3, 0.1);
+    DsMap::drawSubscribe(*params.render, params.physics->getSpace(), params.camera, 22, -200, 0.3, 0.1);
     for (auto& rectangle : *params.rectagles) {
         rectangle.draw();
     }

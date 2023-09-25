@@ -133,3 +133,13 @@ float Render::getScale()
 {
     return camera_.getScale();
 }
+
+float Render::getCameraOffsetX()
+{
+    return camera_.getOffsetX();
+}
+
+float Render::getCameraOffsetY()
+{
+    return camera_.getOffsetY();
+}

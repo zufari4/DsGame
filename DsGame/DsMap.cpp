@@ -240,11 +240,8 @@ namespace DsMap
     {
         if (objectsDS.empty()) {
             float maxX = x;
-            maxX = add(render, space, camera, maxX, y, size, padding, DMap, objectsDS, 0x0084f4ff, 0.5);
-            maxX = add(render, space, camera, maxX, y, size, padding, SMap, objectsDS, 0xffb400ff, 0.5);
-            for (auto& object : objectsDS) {
-                object.obj->setMass(0.5);
-            }
+            maxX = add(render, space, camera, maxX, y, size, padding, DMap, objectsDS, 0x0084f4ff, 0.1);
+            maxX = add(render, space, camera, maxX, y, size, padding, SMap, objectsDS, 0xffb400ff, 0.1);
         }
         for (auto& object : objectsDS) {
             object.obj->draw();
@@ -255,15 +252,15 @@ namespace DsMap
     {
         if (objectsSubscribe.empty()) {
             float maxX = x;
-            maxX = add(render, space, camera, maxX, y, size, padding, SMap, objectsSubscribe, 0x0084faff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsSubscribe, 0xa074fbff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsSubscribe, 0xb064fcff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, sMap, objectsSubscribe, 0xc054fdff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, cMap, objectsSubscribe, 0xd044ffff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, rMap, objectsSubscribe, 0xf034a6ff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, iMap, objectsSubscribe, 0x0024b7ff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsSubscribe, 0x1014c8ff, 0.2);
-            maxX = add(render, space, camera, maxX, y, size, padding, eMap, objectsSubscribe, 0x2004d9ff, 0.2);
+            maxX = add(render, space, camera, maxX, y, size, padding, SMap, objectsSubscribe, 0x0084faff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsSubscribe, 0xa074fbff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsSubscribe, 0xb064fcff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, sMap, objectsSubscribe, 0xc054fdff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, cMap, objectsSubscribe, 0xd044ffff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, rMap, objectsSubscribe, 0xf034a6ff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, iMap, objectsSubscribe, 0x0024b7ff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsSubscribe, 0x1014c8ff, 0.01);
+            maxX = add(render, space, camera, maxX, y, size, padding, eMap, objectsSubscribe, 0x2004d9ff, 0.01);
         }
         for (auto& object : objectsSubscribe) {
             object.obj->draw();
@@ -274,8 +271,8 @@ namespace DsMap
     {
         if (objectsBug.empty()) {
             float maxX = x;
-            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsBug, 0xa01010ff, 1.0) + 0.7;
-            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsBug, 0xa01010ff, 1.0) + 0.7;
+            maxX = add(render, space, camera, maxX, y, size, padding, bMap, objectsBug, 0xa01010ff, 1.0) + 3;
+            maxX = add(render, space, camera, maxX, y, size, padding, uMap, objectsBug, 0xa01010ff, 1.0) + 3;
             maxX = add(render, space, camera, maxX, y, size, padding, gMap, objectsBug, 0xa01010ff, 1.0);
             for (auto& object : objectsBug) {
                 object.obj->setStatic();
