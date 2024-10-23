@@ -148,6 +148,7 @@
     <ClInclude Include="StaticText.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WindowsHeaders.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DsGame.rc" />

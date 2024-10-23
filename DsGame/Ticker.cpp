@@ -1,4 +1,5 @@
 #include "Ticker.h"
+#include "HiSleeper.h"
 
 Ticker::Ticker()
 {
@@ -44,8 +45,10 @@ void Ticker::worker(Callback cb)
 
 void Ticker::ticker(std::chrono::nanoseconds frequency)
 {
+    HiSleeper sleeper(frequency - std::chrono::nanoseconds(100));
+
     while (isWork_) {
-        std::this_thread::sleep_for(frequency);
+        sleeper.sleep();
         quota_.add();
     }
 }

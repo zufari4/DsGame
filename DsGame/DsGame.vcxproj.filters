@@ -170,6 +170,9 @@
     <ClInclude Include="HiSleeper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsHeaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DsGame.rc">
