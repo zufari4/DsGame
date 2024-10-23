@@ -56,7 +56,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VCPKG_ROOT)\installed\x64-windows-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2-static.lib;SDL2_ttf.lib;freetype.lib;libpng16.lib;brotlicommon-static.lib;brotlidec-static.lib;zlib.lib;bz2.lib;chipmunk.lib;winmm.lib;Setupapi.lib;Version.lib;imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2-static.lib;SDL2_ttf.lib;freetype.lib;libpng16.lib;brotlicommon.lib;brotlidec.lib;zlib.lib;bz2.lib;chipmunk.lib;winmm.lib;Setupapi.lib;Version.lib;imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).exe $(SolutionDir)Output /Y</Command>
@@ -84,7 +84,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VCPKG_ROOT)\installed\x64-windows-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2-static.lib;SDL2_ttf.lib;freetype.lib;libpng16.lib;brotlicommon-static.lib;brotlidec-static.lib;zlib.lib;bz2.lib;chipmunk.lib;winmm.lib;Setupapi.lib;Version.lib;imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2-static.lib;SDL2_ttf.lib;freetype.lib;libpng16.lib;brotlicommon.lib;brotlidec.lib;zlib.lib;bz2.lib;chipmunk.lib;winmm.lib;Setupapi.lib;Version.lib;imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).exe $(SolutionDir)Output /Y</Command>
