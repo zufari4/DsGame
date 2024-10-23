@@ -111,6 +111,8 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Ticker.cpp" />
+    <ClCompile Include="TickerQuota.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Walls.cpp" />
     <ClCompile Include="StaticText.cpp" />
@@ -137,6 +139,8 @@
     <ClInclude Include="Render.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Ticker.h" />
+    <ClInclude Include="TickerQuota.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="Walls.h" />
     <ClInclude Include="StaticText.h" />

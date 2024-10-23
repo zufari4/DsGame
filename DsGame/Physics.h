@@ -5,6 +5,7 @@
 #include <memory>
 #include <inttypes.h>
 #include "HiResTimer.h"
+#include "Ticker.h"
 
 struct cpSpace;
 typedef union SDL_Event;
@@ -40,4 +41,5 @@ private:
     double dt_;
     const double maxDT_;
     HiResTimer timer_;
+    Ticker ticker_;
 };

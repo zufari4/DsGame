@@ -38,12 +38,14 @@ void Physics::run()
 {
     isWork_  = true;
     isPause_ = false;
-    mainThread_ = std::make_unique<std::thread>(physicThread, std::ref(*this));
+    //mainThread_ = std::make_unique<std::thread>(physicThread, std::ref(*this));
+    ticker_.run(std::bind(&Physics::step, this), std::chrono::nanoseconds(uint64_t(stepDuration_ * 1000000000.0)));
 }
 
 void Physics::stop()
 {
     isWork_ = false;
+    ticker_.stop();
     if (mainThread_) mainThread_->join();
 }
 
@@ -58,6 +60,7 @@ void Physics::pause()
 void Physics::resume()
 {
     isPause_ = false;
+    ticker_.reset();
 }
 
 void Physics::handleEvents(const SDL_Event& event)
@@ -75,19 +78,19 @@ void Physics::step()
 
     if (isPause_) {
         inStep_ = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(18));
-        resetTime();
+        //std::this_thread::sleep_for(std::chrono::milliseconds(18));
+        //resetTime();
         return;
     }
 
-    now_  = timer_.now();
-    dt_   = now_ - last_;
-    last_ = now_;
-    if (dt_ > maxDT_) dt_ = maxDT_;
+    //now_  = timer_.now();
+    //dt_   = now_ - last_;
+    //last_ = now_;
+    //if (dt_ > maxDT_) dt_ = maxDT_;
 
-    for (accum_ += dt_; accum_ >= stepDuration_; accum_ -= stepDuration_) {
+    //for (accum_ += dt_; accum_ >= stepDuration_; accum_ -= stepDuration_) {
         invalidate();
-	}
+	//}
 
     inStep_ = false;
 }
