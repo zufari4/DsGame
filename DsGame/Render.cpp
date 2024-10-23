@@ -27,7 +27,7 @@ bool Render::init()
 
     int w, h;
     getScreenSize(w, h);
-    window_ = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, SDL_WINDOW_SHOWN);
+    window_ = SDL_CreateWindow("DS Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     renderer_ = createPreferedRender(window_, { "direct3d11", "opengl" });
     isSupportMultiThreding_ = isRenderSupportMultiThreding(renderer_);
     return renderer_ != nullptr;
