@@ -99,6 +99,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DsDemo.cpp" />
+    <ClCompile Include="HiSleeper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DsMap.cpp" />
     <ClCompile Include="DynamicText.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="FpsTester.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HiResTimer.h" />
+    <ClInclude Include="HiSleeper.h" />
     <ClInclude Include="IFontAtlas.h" />
     <ClInclude Include="IVertexBuffer.h" />
     <ClInclude Include="MouseBody.h" />
